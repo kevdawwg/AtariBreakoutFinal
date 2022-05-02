@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.awt.*;
 public class Game {
@@ -44,13 +43,10 @@ public class Game {
     }
 
     public void checkCollisions() { //error here
-        int mark;
         for (int i = 0; i < bricks.size(); i++) {
             if (ball.isIntersecting(bricks.get(i))) {
-                mark = i;
-                break;
+                bricks.remove(bricks.get(i));
             }
         }
-        bricks.remove(bricks.get(mark));
     }
 }
