@@ -6,7 +6,7 @@ public class Game {
     private Ball ball;
     private int brickWidth = 70;
     private int brickHeight = 40;
-
+//testing Karan's git, small comment, ignore this
     public Game() {
         paddle = new Paddle(300, 500, 100, 20);
         ball = new Ball(300, 450, 10, 10, 10, -10);
