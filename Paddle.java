@@ -17,6 +17,6 @@ public class Paddle {
     }
 
     public boolean paddleCollide(GameComponent o) {
-        return this.rect.x == o.getRect().x || this.rect.y == o.getRect().y;
+        return this.rect.intersects(o.getRect());
     }
 }
