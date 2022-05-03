@@ -45,6 +45,6 @@ public class GameComponent {
     }
 
     public boolean isIntersecting(GameComponent object) {
-        return this.rect.x == object.rect.x || this.rect.y == object.rect.y;
+        return this.rect.intersects(object.rect);
     }
 }
