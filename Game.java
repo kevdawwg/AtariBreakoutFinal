@@ -45,7 +45,7 @@ public class Game {
     public void checkCollisions() { //error here
         for (int i = 0; i < bricks.size(); i++) {
             if (ball.isIntersecting(bricks.get(i))) {
-                bricks.remove(bricks.get(i));
+                // bricks.remove(bricks.get(i));
             }
         }
     }
