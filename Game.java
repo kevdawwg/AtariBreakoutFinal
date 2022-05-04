@@ -49,5 +49,21 @@ public class Game {
                 ball.changeDir(true);
             }
         }
+        checkWalls();
+    }
+
+    public void checkWalls(){
+        if(ball.getX()>=800){
+            ball.changeDir(false);
+        }
+        else if(ball.getX()<=0){
+            ball.changeDir(false);
+        }
+        if(ball.getY()>=600){
+            ball.changeDir(false);
+        }
+        else if(ball.getY()<=0){
+            ball.changeDir(false);
+        }
     }
 }
