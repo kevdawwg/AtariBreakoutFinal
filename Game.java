@@ -12,9 +12,23 @@ public class Game {
         paddle = new Paddle(300, 500, 100, 20);
         ball = new Ball(300, 450, 10, 10, 10, -10);
         bricks = new ArrayList();
+        Color color = null;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 4; j++) {
-                bricks.add(new GameComponent(i * (brickWidth + 10), j * (brickHeight + 10), brickWidth, brickHeight));
+                switch(j) {
+                    case 0:
+                        color = Color.RED;
+                        break;
+                    case 1:
+                        color = Color.YELLOW;
+                        break;
+                    case 2:
+                        color= Color.GREEN;
+                        break;
+                    default:
+                        color = Color.BLUE;
+                }
+                bricks.add(new GameComponent(i * (brickWidth + 10), j * (brickHeight + 10), brickWidth, brickHeight, color));
             }
         }
         System.out.println(bricks.size());
@@ -32,7 +46,7 @@ public class Game {
 
     public void drawBricks(Graphics g) {
         for (GameComponent gc : bricks) {
-            gc.draw(g, Color.YELLOW);
+            gc.draw(g);
         }
     }
 
