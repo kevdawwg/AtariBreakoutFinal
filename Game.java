@@ -6,13 +6,14 @@ public class Game {
     private Ball ball;
     private int brickWidth = 70;
     private int brickHeight = 40;
+    private int score = 0;
 //testing Karan's git, small comment, ignore this
     public Game() {
         paddle = new Paddle(300, 500, 100, 20);
         ball = new Ball(300, 450, 10, 10, 10, -10);
         bricks = new ArrayList();
         for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 4; j++) {
                 bricks.add(new GameComponent(i * (brickWidth + 10), j * (brickHeight + 10), brickWidth, brickHeight));
             }
         }
@@ -24,6 +25,9 @@ public class Game {
         paddle.draw(g);
         ball.draw(g, Color.WHITE);
         drawBricks(g);
+        g.setColor(Color.WHITE);
+        g.drawString("Score: "+score, 710, 570);
+
     }
 
     public void drawBricks(Graphics g) {
@@ -46,6 +50,7 @@ public class Game {
         for (int i = 0; i < bricks.size(); i++) {
             if (ball.isIntersecting(bricks.get(i))) {
                 bricks.remove(bricks.get(i));
+                score+=100;
                 ball.changeDir(true);
             }
         }
