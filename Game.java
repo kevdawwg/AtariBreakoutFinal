@@ -11,7 +11,7 @@ public class Game {
     public Game() {
         paddle = new Paddle(300, 500, 100, 20);
         ball = new Ball(300, 450, 10, 10, 10, -10);
-        bricks = new ArrayList();
+        bricks = new ArrayList<>();
         Color color = null;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 4; j++) {
@@ -59,30 +59,32 @@ public class Game {
     public void moveStuff() {
         ball.move();
     }
-
+    
     public void checkCollisions() { //error here
-        for (int i = 0; i < bricks.size(); i++) {
-            if (ball.isIntersecting(bricks.get(i))) {
-                bricks.remove(bricks.get(i));
-                score+=100;
-                ball.changeDir(true);
+        if(checkWalls()) return;
+        int idx = 0;
+        while(idx < bricks.size()) {
+            Rectangle brickRect = bricks.get(idx).getRect();
+            Rectangle ballRect = ball.getRect();
+            if(!brickRect.intersects(ballRect)) {
+                idx++;
+                continue;
             }
+            boolean ballIntersectingVert = ballRect.y <= brickRect.y+brickRect.height || ballRect.y+ballRect.height >= brickRect.y;
+            ball.changeDir(ballIntersectingVert);
+            bricks.remove(idx);
         }
-        checkWalls();
     }
 
-    public void checkWalls(){
-        if(ball.getX()>=800){
+    public boolean checkWalls(){
+        if(ball.getX() >= 800 || ball.getX() <= 0) {
             ball.changeDir(false);
+            return true;
         }
-        else if(ball.getX()<=0){
-            ball.changeDir(false);
-        }
-        if(ball.getY()>=600){
-            ball.changeDir(false);
-        }
-        else if(ball.getY()<=0){
-            ball.changeDir(false);
-        }
+        else if (ball.getY() <= 0 || ball.getY() >= 600){
+            ball.changeDir(true);
+            return true;
+        } 
+        return false;
     }
 }

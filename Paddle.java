@@ -1,10 +1,7 @@
-
 import java.awt.*;
-import java.util.*;
 
 public class Paddle {
     private Rectangle rect;
-    private Color c;
 
     public Paddle(int x, int y, int width, int height) {
         rect = new Rectangle(x, y, width, height);

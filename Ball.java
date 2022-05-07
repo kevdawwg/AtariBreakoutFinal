@@ -12,19 +12,9 @@ public class Ball extends GameComponent {
     public int getX(){ return x; }
     public int getY(){ return y; }
 
-    public void changeDir(boolean isBrick){
-        if(isBrick){
-            if(dx == 10 && dy == 10){ dy = -10; }
-            else if(dx == 10 && dy == -10){ dx = -10; }
-            else if(dx == -10 && dy == -10){ dy = 10; }
-            else if(dx == -10 && dy == 10){ dx = 10; }
-        }
-        else{
-            if(dx == 10 && dy == 10){ dx = -10; }
-            else if(dx == 10 && dy == -10){ dy = 10; }
-            else if(dx == -10 && dy == -10){ dx = 10; }
-            else if(dx == -10 && dy == 10){ dy = -10; }
-        }
+    public void changeDir(boolean isVertical){
+        if(isVertical) dy = -dy;
+        else dx = -dx;
     }
 
     public void move() {
