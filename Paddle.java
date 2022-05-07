@@ -1,6 +1,5 @@
 import java.awt.*;
 
-
 public class Paddle extends GameComponent{
     private Color c;
 
@@ -8,14 +7,15 @@ public class Paddle extends GameComponent{
         super(x, y, width, height, 0, 0);
     }
 
-
-    public boolean paddleCollide(GameComponent o) {
-        return this.getRect().intersects(o.getRect());
-    }
-
     public void move() {
-        // this.rect.setLocation(x, this.rect.y);
-        this.getRect().setLocation((int)MouseInfo.getPointerInfo().getLocation().getX(), this.getRect().y);
+        int x = (int)MouseInfo.getPointerInfo().getLocation().getX();
+        if (x+100> Board.WIDTH) {
+            return;
+        }
+        else {
+            this.getRect().setLocation(x, this.getRect().y);
+        }
+
     }
 
 }

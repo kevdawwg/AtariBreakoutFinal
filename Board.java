@@ -4,11 +4,10 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import java.awt.MouseInfo;
 
 public class Board extends JFrame{
     private Game game = new Game();
-    public static int WIDTH = 800, HEIGHT = 600, REFRESH = 100;
+    public static final int WIDTH = 800, HEIGHT = 600, REFRESH = 100;
 
     private JPanel panel = new JPanel() {
 		@Override
@@ -28,14 +27,6 @@ public class Board extends JFrame{
     private void setUpStuff() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-
-        //start of new code
-        JLabel l = new JLabel();
-        l.setBounds(0, 0, 800, 600);
-        l.setBackground(Color.BLACK);
-        this.add(l);
-        //end of new code
-
 		this.add(panel);
 		this.pack();
 		timer = new Timer(REFRESH, new ActionListener() {

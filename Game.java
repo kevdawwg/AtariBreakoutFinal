@@ -3,18 +3,18 @@ import java.awt.*;
 public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
-    ArrayList<Integer> xcoords;
-    ArrayList<Ball> balls;
     private Ball ball;
     private static final int brickWidth = 70;
     private static final int brickHeight = 40;
-    private int score = 0;
+    private int score;
     private int lives;
-//testing Karan's git, small comment, ignore this
+
     public Game() {
         paddle = new Paddle(300, 500, 100, 20);
         ball = new Ball(300, 450, 10, 10, 10, -10);
         bricks = new ArrayList<>();
+        lives = 3;
+        score = 0;
         Color color = null;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 4; j++) {
@@ -39,31 +39,46 @@ public class Game {
     }
 
     public void drawGame(Graphics g) {
-        paddle.draw(g, Color.GREEN);
         drawStuff(g);
     }
-
+    
     public void drawStuff (Graphics g) {
+        paddle.draw(g, Color.GREEN);
+        ball.draw(g, Color.WHITE);
         for (GameComponent gc : bricks) {
             gc.draw(g);
         }
         
-        ball.draw(g, Color.WHITE);
+        
     }
 
     public void update() {
         paddle.move();
-        moveStuff();
+        ball.move();
         // System.out.println("dx: " + ball.getDx() + "dy: " + ball.getDy());
         checkCollisions();
-    }
-
-    public void moveStuff() {
-        ball.move();
     }
     
     public void checkCollisions() { //error here
         if(checkWalls()) return;
+        if (ball.isIntersecting(paddle)) {
+            ball.changeDir(true);
+        }
+        if (ball.getRect().y+ball.getRect().height >= Board.HEIGHT) {
+            System.out.println("hit the bottom");
+            try {
+                lives--;
+                Thread.sleep(3000);
+                int randX = ((int) (Math.random() * 500)) + 100;
+                double rand = Math.random();
+                int xv = (rand > 0.5) ? -10 : 10;
+                ball = new Ball(randX, 300, 10, 10, xv, 10);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("lives " + lives);
+        } 
         int idx = 0;
         while(idx < bricks.size()) {
             Rectangle brickRect = bricks.get(idx).getRect();
@@ -75,21 +90,8 @@ public class Game {
             boolean ballIntersectingVert = ballRect.y <= brickRect.y+brickRect.height || ballRect.y+ballRect.height >= brickRect.y;
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
+            score += 100;
         }
-        if (ball.getRect().y > Board.HEIGHT) {
-            balls.remove(ball);
-            lives--;
-            System.out.println("lives " + lives);
-            try {
-                Thread.sleep(3000);
-                int randX = ((int) (Math.random() * 500)) + 100;
-                ball = new Ball(randX, 300, 10, 10, 10, -10);
-                balls.add(ball);
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
-        } 
     }
 
     public boolean checkWalls(){
@@ -104,7 +106,4 @@ public class Game {
         return false;
     }
 
-    public void addCoord(int x) {
-        xcoords.add(x);
-    }
 }
