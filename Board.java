@@ -8,7 +8,7 @@ import java.awt.MouseInfo;
 
 public class Board extends JFrame{
     private Game game = new Game();
-    public int WIDTH = 800, HEIGHT = 600, REFRESH = 100;
+    public static int WIDTH = 800, HEIGHT = 600, REFRESH = 100;
 
     private JPanel panel = new JPanel() {
 		@Override

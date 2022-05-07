@@ -4,10 +4,12 @@ public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
     ArrayList<Integer> xcoords;
+    ArrayList<Ball> balls;
     private Ball ball;
     private static final int brickWidth = 70;
     private static final int brickHeight = 40;
     private int score = 0;
+    private int lives;
 //testing Karan's git, small comment, ignore this
     public Game() {
         paddle = new Paddle(300, 500, 100, 20);
@@ -37,18 +39,16 @@ public class Game {
     }
 
     public void drawGame(Graphics g) {
-        paddle.draw(g);
-        ball.draw(g, Color.WHITE);
-        drawBricks(g);
-        g.setColor(Color.WHITE);
-        g.drawString("Score: "+score, 710, 570);
-
+        paddle.draw(g, Color.GREEN);
+        drawStuff(g);
     }
 
-    public void drawBricks(Graphics g) {
+    public void drawStuff (Graphics g) {
         for (GameComponent gc : bricks) {
             gc.draw(g);
         }
+        
+        ball.draw(g, Color.WHITE);
     }
 
     public void update() {
@@ -76,6 +76,20 @@ public class Game {
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
         }
+        if (ball.getRect().y > Board.HEIGHT) {
+            balls.remove(ball);
+            lives--;
+            System.out.println("lives " + lives);
+            try {
+                Thread.sleep(3000);
+                int randX = ((int) (Math.random() * 500)) + 100;
+                ball = new Ball(randX, 300, 10, 10, 10, -10);
+                balls.add(ball);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        } 
     }
 
     public boolean checkWalls(){

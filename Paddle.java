@@ -1,26 +1,21 @@
 import java.awt.*;
 
 
-public class Paddle {
-    private Rectangle rect;
+public class Paddle extends GameComponent{
+    private Color c;
 
     public Paddle(int x, int y, int width, int height) {
-        rect = new Rectangle(x, y, width, height);
+        super(x, y, width, height, 0, 0);
     }
 
-    public void draw(Graphics g) {
-        Graphics g2 = (Graphics2D) g;
-        g2.setColor(Color.WHITE);
-        ((Graphics2D) g2).fill(rect);
-    }
 
     public boolean paddleCollide(GameComponent o) {
-        return this.rect.intersects(o.getRect());
+        return this.getRect().intersects(o.getRect());
     }
 
     public void move() {
         // this.rect.setLocation(x, this.rect.y);
-        this.rect.setLocation((int)MouseInfo.getPointerInfo().getLocation().getX(), this.rect.y);
+        this.getRect().setLocation((int)MouseInfo.getPointerInfo().getLocation().getX(), this.getRect().y);
     }
 
 }
