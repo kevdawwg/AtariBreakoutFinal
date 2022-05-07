@@ -3,6 +3,7 @@ import java.awt.*;
 public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
+    ArrayList<Integer> xcoords;
     private Ball ball;
     private int brickWidth = 70;
     private int brickHeight = 40;
@@ -58,6 +59,7 @@ public class Game {
 
     public void moveStuff() {
         ball.move();
+        paddle.move(xcoords.remove(0));
     }
     
     public void checkCollisions() { //error here
@@ -86,5 +88,9 @@ public class Game {
             return true;
         } 
         return false;
+    }
+
+    public void addCoord(int x) {
+        xcoords.add(x);
     }
 }
