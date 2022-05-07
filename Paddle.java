@@ -1,5 +1,6 @@
 import java.awt.*;
 
+
 public class Paddle {
     private Rectangle rect;
 
@@ -17,8 +18,9 @@ public class Paddle {
         return this.rect.intersects(o.getRect());
     }
 
-    public void move(int x) {
-        this.rect.setLocation(x, this.rect.y);
+    public void move() {
+        // this.rect.setLocation(x, this.rect.y);
+        this.rect.setLocation((int)MouseInfo.getPointerInfo().getLocation().getX(), this.rect.y);
     }
 
 }

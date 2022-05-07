@@ -1,15 +1,12 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
+import java.awt.MouseInfo;
 
-import org.w3c.dom.events.MouseEvent;
-
-public class Board extends JFrame implements MouseInputListener{
+public class Board extends JFrame{
     private Game game = new Game();
     public int WIDTH = 800, HEIGHT = 600, REFRESH = 100;
 
@@ -37,7 +34,6 @@ public class Board extends JFrame implements MouseInputListener{
         l.setBounds(0, 0, 800, 600);
         l.setBackground(Color.BLACK);
         this.add(l);
-        l.addMouseListener(this);
         //end of new code
 
 		this.add(panel);
@@ -54,54 +50,6 @@ public class Board extends JFrame implements MouseInputListener{
 		this.setVisible(true);
 		panel.requestFocusInWindow();
 	}
-
-    public void mouseDrag(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(java.awt.event.MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mousePressed(java.awt.event.MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseReleased(java.awt.event.MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseEntered(java.awt.event.MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseExited(java.awt.event.MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseDragged(java.awt.event.MouseEvent e) {
-        int x = (int) e.getPoint().getX();
-        game.addCoord(x);
-        
-    }
-
-    @Override
-    public void mouseMoved(java.awt.event.MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
     
 }
 

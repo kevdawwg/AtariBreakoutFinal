@@ -5,8 +5,8 @@ public class Game {
     ArrayList<GameComponent> bricks;
     ArrayList<Integer> xcoords;
     private Ball ball;
-    private int brickWidth = 70;
-    private int brickHeight = 40;
+    private static final int brickWidth = 70;
+    private static final int brickHeight = 40;
     private int score = 0;
 //testing Karan's git, small comment, ignore this
     public Game() {
@@ -52,6 +52,7 @@ public class Game {
     }
 
     public void update() {
+        paddle.move();
         moveStuff();
         // System.out.println("dx: " + ball.getDx() + "dy: " + ball.getDy());
         checkCollisions();
@@ -59,7 +60,6 @@ public class Game {
 
     public void moveStuff() {
         ball.move();
-        paddle.move(xcoords.remove(0));
     }
     
     public void checkCollisions() { //error here
