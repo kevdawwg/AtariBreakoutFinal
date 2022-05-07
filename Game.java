@@ -1,8 +1,12 @@
 import java.util.*;
+
+import org.w3c.dom.events.MouseEvent;
+
 import java.awt.*;
 public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
+    ArrayList<Integer> xcoords;
     private Ball ball;
     private int brickWidth = 70;
     private int brickHeight = 40;
@@ -11,6 +15,7 @@ public class Game {
         paddle = new Paddle(300, 500, 100, 20);
         ball = new Ball(300, 450, 10, 10, 10, -10);
         bricks = new ArrayList();
+        xcoords = new ArrayList();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 3; j++) {
                 bricks.add(new GameComponent(i * (brickWidth + 10), j * (brickHeight + 10), brickWidth, brickHeight));
@@ -40,6 +45,7 @@ public class Game {
 
     public void moveStuff() {
         ball.move();
+        paddle.move(xcoords.remove(0));
     }
 
     public void checkCollisions() { //error here
@@ -65,5 +71,9 @@ public class Game {
         else if(ball.getY()<=0){
             ball.changeDir(false);
         }
+    }
+
+    public void addCoord(int x) {
+        xcoords.add(x);
     }
 }

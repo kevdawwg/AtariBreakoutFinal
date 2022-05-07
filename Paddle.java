@@ -19,4 +19,9 @@ public class Paddle {
     public boolean paddleCollide(GameComponent o) {
         return this.rect.intersects(o.getRect());
     }
+
+    public void move(int x) {
+        this.rect.setLocation(x, this.rect.y);
+    }
+
 }
