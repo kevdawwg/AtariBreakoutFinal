@@ -48,6 +48,8 @@ public class Game {
         for (GameComponent gc : bricks) {
             gc.draw(g);
         }
+        g.setColor(Color.WHITE);
+        g.drawString("Score: " + score, 700, 550);
         
         
     }
