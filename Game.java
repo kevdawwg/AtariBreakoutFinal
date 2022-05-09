@@ -4,34 +4,29 @@ public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
     private Ball ball;
-    private static final int brickWidth = 70;
-    private static final int brickHeight = 40;
     private int score;
     private int lives;
+    private static final int BRICK_WIDTH = 70;
+    private static final int BRICK_HEIGHT = 40;
+    private static final int PADDLE_WIDTH = 100;
+    private static final int PADDLE_HEIGHT = 20;
+    private static final int BALL_WIDTH = 10;
+    private static final int BALL_HEIGHT = 10;
+    
+    
 
     public Game() {
-        paddle = new Paddle(300, 500, 100, 20);
-        ball = new Ball(300, 450, 10, 10, 10, -10);
-        bricks = new ArrayList<>();
+        bricks = new ArrayList();
+        paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
+        ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
         Color color = null;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 4; j++) {
-                switch(j) {
-                    case 0:
-                        color = Color.RED;
-                        break;
-                    case 1:
-                        color = Color.YELLOW;
-                        break;
-                    case 2:
-                        color= Color.GREEN;
-                        break;
-                    default:
-                        color = Color.BLUE;
-                }
-                bricks.add(new GameComponent(i * (brickWidth + 10), j * (brickHeight + 10), brickWidth, brickHeight, color));
+        Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 10; c++) {
+                color = colors[r];
+                bricks.add(new GameComponent(c * (BRICK_WIDTH + 10), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
             }
         }
         System.out.println(bricks.size());
@@ -71,10 +66,10 @@ public class Game {
             try {
                 lives--;
                 Thread.sleep(3000);
-                int randX = ((int) (Math.random() * 500)) + 100;
+                int randX = ((int) (Math.random() * Board.WIDTH-99)) + 100;
                 double rand = Math.random();
                 int xv = (rand > 0.5) ? -10 : 10;
-                ball = new Ball(randX, 300, 10, 10, xv, 10);
+                ball = new Ball(randX, 300, BALL_WIDTH, BALL_HEIGHT, xv, 10);
             }
             catch(Exception e) {
                 e.printStackTrace();
@@ -93,15 +88,18 @@ public class Game {
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
             score += 100;
+            // ball.setDx(ball.getDx()*10);
+            // ball.setDy(ball.getDy()*10);
+            // System.out.println(ball.getDx() + " " + ball.getDy());
         }
     }
 
     public boolean checkWalls(){
-        if(ball.getX() >= 800 || ball.getX() <= 0) {
+        if(ball.getRect().x + BALL_WIDTH >= Board.WIDTH || ball.getRect().x <= 0) {
             ball.changeDir(false);
             return true;
         }
-        else if (ball.getY() <= 0 || ball.getY() >= 600){
+        else if (ball.getRect().y + BALL_HEIGHT <= 0 || ball.getRect().y >= Board.HEIGHT){
             ball.changeDir(true);
             return true;
         } 

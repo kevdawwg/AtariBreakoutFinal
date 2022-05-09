@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class Paddle extends GameComponent{
-    private Color c;
 
     public Paddle(int x, int y, int width, int height) {
         super(x, y, width, height, 0, 0);

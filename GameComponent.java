@@ -1,4 +1,3 @@
-
 import java.awt.*;
 
 public class GameComponent {
@@ -42,9 +41,8 @@ public class GameComponent {
         ((Graphics2D) g2).fill(rect);
     }
     public void draw(Graphics g, Color c) {
-        Graphics g2 = (Graphics2D) g;
-        g2.setColor(c);
-        ((Graphics2D) g2).fill(rect);
+        g.setColor(c);
+        draw(g);
     }
 
     public void move() {
