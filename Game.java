@@ -84,6 +84,7 @@ public class Game {
                 idx++;
                 continue;
             }
+            //first one is checking the bottom, the second one is checking the top
             boolean ballIntersectingVert = ballRect.y <= brickRect.y+brickRect.height || ballRect.y+ballRect.height >= brickRect.y;
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
