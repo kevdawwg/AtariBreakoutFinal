@@ -18,8 +18,8 @@ public class Ball extends GameComponent {
     }
 
     public void changeDir(boolean isVertical){
-        if(isVertical) dy = -dy;
-        else dx = -dx;
+        if(isVertical) setDy(-getDy());
+        else setDx(-getDx());
     }
 
     public void move() {

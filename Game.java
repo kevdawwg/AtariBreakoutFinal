@@ -89,8 +89,8 @@ public class Game {
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
             score += 100;
-            // ball.setDx(ball.getDx()*10);
-            // ball.setDy(ball.getDy()*10);
+            ball.setDx(ball.getDx()*10);
+            ball.setDy(ball.getDy()*10);
             // System.out.println(ball.getDx() + " " + ball.getDy());
         }
     }
