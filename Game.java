@@ -1,4 +1,7 @@
 import java.util.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 public class Game {
@@ -13,8 +16,8 @@ public class Game {
     private static final int PADDLE_HEIGHT = 20;
     private static final int BALL_WIDTH = 10;
     private static final int BALL_HEIGHT = 10;
-    
-    
+    private static final int SPEED_CAP = 25;
+    private static final int SPEED_INCREMENT = 5;
 
     public Game() {
         bricks = new ArrayList();
@@ -22,16 +25,20 @@ public class Game {
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
-        Color color = null;
-        Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
-        for (int r = 0; r < 4; r++) {
-            for (int c = 0; c < 10; c++) {
-                color = colors[r];
-                bricks.add(new GameComponent(c * (BRICK_WIDTH + 10), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
-            }
+        respawnBricks();
+
+        try { //attempting to play sound
+            Clip clip = AudioSystem.getClip();
+            String filePath = "../sounds/doomBackgroundMusic.wav";
+            // AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("../sounds/" + "doomBackgroundMusic.wav"));
+            clip.open(inputStream);
+            clip.start();
         }
-        System.out.println(bricks.size());
-        // y+i*SegmentSize
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void drawGame(Graphics g) {
@@ -45,19 +52,35 @@ public class Game {
             gc.draw(g);
         }
         g.setColor(Color.WHITE);
+        g.drawString("Lives: " + lives, 650, 550);
         g.drawString("Score: " + score, 700, 550);
-        
-        
+    }
+
+    public void moveObjects() {
+        paddle.move();
+        ball.move();
     }
 
     public void update() {
-        paddle.move();
-        ball.move();
-        // System.out.println("dx: " + ball.getDx() + "dy: " + ball.getDy());
+        moveObjects();
         checkCollisions();
+        respawnBricks();
+    }
+
+    public void respawnBricks() {
+        if (bricks.size() == 0) {
+            Color color = null;
+            Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 10; c++) {
+                    color = colors[r];
+                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 10), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
+                }
+            }
+        }
     }
     
-    public void checkCollisions() { //error here
+    public void checkCollisions() { 
         if(checkWalls()) return;
         if (ball.isIntersecting(paddle)) {
             ball.changeDir(true);
@@ -75,7 +98,6 @@ public class Game {
             catch(Exception e) {
                 e.printStackTrace();
             }
-            System.out.println("lives " + lives);
         } 
         int idx = 0;
         while(idx < bricks.size()) {
@@ -89,9 +111,24 @@ public class Game {
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
             score += 100;
-            ball.setDx(ball.getDx());
-            ball.setDy(ball.getDy());
-            // System.out.println(ball.getDx() + " " + ball.getDy());
+            if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDy()) < SPEED_CAP) {
+                if (ball.getDx() > 0)  {
+                    ball.setDx(ball.getDx() + SPEED_INCREMENT);
+                    return;
+                }
+                if (ball.getDx() < 0) {
+                    ball.setDx(ball.getDx() - SPEED_INCREMENT);
+                    return;
+                }
+                if (ball.getDy() > 0) {
+                    ball.setDy(ball.getDy() + SPEED_INCREMENT);
+                    return;
+                }
+                if (ball.getDy() < 0) {
+                    ball.setDy(ball.getDy() - SPEED_INCREMENT);
+                    return;
+                }
+            }
         }
     }
 
