@@ -1,5 +1,10 @@
 import java.util.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.io.File;
+
 public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
@@ -22,6 +27,18 @@ public class Game {
         lives = 3;
         score = 0;
         respawnBricks();
+
+        try { //attempting to play sound
+            Clip clip = AudioSystem.getClip();
+            String filePath = "../sounds/doomBackgroundMusic.wav";
+            // AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("../sounds/" + "doomBackgroundMusic.wav"));
+            clip.open(inputStream);
+            clip.start();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
