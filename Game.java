@@ -3,8 +3,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.io.File;
-
+import java.awt.event.KeyEvent;
 public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
