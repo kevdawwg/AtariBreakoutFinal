@@ -75,19 +75,15 @@ public class Board extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("released the right arrow");
-				
 			}
 		});
-		
-
-		
 		
 		panel.getActionMap().put("rt_key",new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("hit the right arrow");
-			
+				game.rtHit(e);
 			}
 		});
 		panel.getActionMap().put("lt_key",new AbstractAction() {
@@ -95,8 +91,7 @@ public class Board extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("hit the left arrow");
-				
-				
+				game.ltHit(e);
 			}
 		});
 	}
