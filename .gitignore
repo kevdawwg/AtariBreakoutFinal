@@ -2,4 +2,3 @@ bin
 .vscode
 *.class
 run.sh
-run.bat

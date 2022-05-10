@@ -11,7 +11,5 @@ public class Ball extends GameComponent {
 
     public void move() {
         this.getRect().translate(getDx(), getDy());
-        // x+=dx;
-        // y+=dy;
     }
 }
