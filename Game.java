@@ -52,8 +52,8 @@ public class Game {
             gc.draw(g);
         }
         g.setColor(Color.WHITE);
-        g.drawString("Lives: " + lives, 650, 550);
-        g.drawString("Score: " + score, 700, 550);
+        g.drawString("Lives: " + lives, 550, 550);
+        g.drawString("Score: " + score, 650, 550);
     }
 
     public void moveObjects() {
@@ -65,6 +65,9 @@ public class Game {
         moveObjects();
         checkCollisions();
         respawnBricks();
+        if(lives==0){
+            
+        }
     }
 
     public void respawnBricks() {
@@ -74,7 +77,7 @@ public class Game {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 10; c++) {
                     color = colors[r];
-                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 10), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
+                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
             }
         }
