@@ -61,8 +61,8 @@ public class Game {
     }
 
     public void moveObjects() {
-        // paddle.mouseMove();
-        if (actions.size() > 0) {
+        // paddle.mouseMove(); //can only have one or the other
+        if (actions.size() > 0) { //this one is for buttons
             paddle.buttonMove(actions.remove(0));
         }
         ball.move();
