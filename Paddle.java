@@ -40,13 +40,13 @@ public class Paddle extends GameComponent{
 
         if (key == KeyEvent.VK_LEFT) {
 
-
+            
             this.getRect().setLocation(x, this.getRect().y);
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-
+            
             this.getRect().setLocation(x, this.getRect().y);
         }
     }
@@ -57,13 +57,13 @@ public class Paddle extends GameComponent{
 
         if (key == KeyEvent.VK_LEFT) {
 
-
+            
             this.getRect().setLocation(x, this.getRect().y);
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
-
+            
             this.getRect().setLocation(x, this.getRect().y);
         }
     }
