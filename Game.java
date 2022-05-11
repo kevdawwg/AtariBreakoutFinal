@@ -4,6 +4,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class Game {
     private Paddle paddle;
@@ -28,7 +30,7 @@ public class Game {
         score = 0;
         respawnBricks();
 
-        try { //attempting to play sound
+        try { //attempting to play sound fdg969
             Clip clip = AudioSystem.getClip();
             String filePath = "../sounds/doomBackgroundMusic.wav";
             // AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
