@@ -10,14 +10,14 @@ public class Game {
     private int score;
     private int lives;
     private NewSoundPlayer player;
-    private static final int BRICK_WIDTH = 70;
-    private static final int BRICK_HEIGHT = 40;
-    private static final int PADDLE_WIDTH = 100;
-    private static final int PADDLE_HEIGHT = 20;
-    private static final int BALL_WIDTH = 10;
-    private static final int BALL_HEIGHT = 10;
-    private static final int SPEED_CAP = 25;
-    private static final int SPEED_INCREMENT = 5;
+    public static final int BRICK_WIDTH = 70;
+    public static final int BRICK_HEIGHT = 40;
+    public static final int PADDLE_WIDTH = 100;
+    public static final int PADDLE_HEIGHT = 20;
+    public static final int BALL_WIDTH = 10;
+    public static final int BALL_HEIGHT = 10;
+    public static final int SPEED_CAP = 25;
+    public static final int SPEED_INCREMENT = 5;
 
     public Game() {
         player = new NewSoundPlayer();
@@ -104,9 +104,10 @@ public class Game {
         }
         int idx = 0;
         while (idx < bricks.size()) {
-            Rectangle brickRect = bricks.get(idx).getRect();
+            GameComponent brick = bricks.get(idx);
+            Rectangle brickRect = brick.getRect();
             Rectangle ballRect = ball.getRect();
-            if (!brickRect.intersects(ballRect)) {
+            if (!brick.touching(ball)) {
                 idx++;
                 continue;
             }
@@ -117,20 +118,12 @@ public class Game {
             bricks.remove(idx);
             score += 100;
             if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDy()) < SPEED_CAP) {
-                if (ball.getDx() > 0) {
+                if (ball.getDx() > 0 || ball.getDy() > 0) {
                     ball.setDx(ball.getDx() + SPEED_INCREMENT);
                     return;
                 }
-                if (ball.getDx() < 0) {
+                if (ball.getDx() < 0 || ball.getDy() < 0) {
                     ball.setDx(ball.getDx() - SPEED_INCREMENT);
-                    return;
-                }
-                if (ball.getDy() > 0) {
-                    ball.setDy(ball.getDy() + SPEED_INCREMENT);
-                    return;
-                }
-                if (ball.getDy() < 0) {
-                    ball.setDy(ball.getDy() - SPEED_INCREMENT);
                     return;
                 }
             }
