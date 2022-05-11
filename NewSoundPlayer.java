@@ -58,54 +58,21 @@ public class NewSoundPlayer {
 			}
 		}
 	}
-	// public void playFallD(){
-	// 	System.out.println("Diamond falling!");
-	// 	play(7);
-	// }
-	// public void playFallB(){
-	// 	System.out.println("Boulder falling!");
-	// 	play(6);
-	// }
-	// public void playLose(){
-	// 	System.out.println("Lost.  And here is sound! "+clipList.get(5));
-	// 	play(4);
-	// }
-	// public void playWin(){
-	// 	System.out.println("Win sounding!");
-	// 	play(4);
-	// }
-	// public void playSquish(){
-	// 	System.out.println("Sounds squishy!");
-	// 	play(3);
-	// }
 	
-	// public void playExplode(){
-	// 	play(2);
-	// }
-	
-	// public void playShuffle(){
-	// 	System.out.println("Sounds like shuffling!");
-	// 	play(0);
-	// }
-	// public void playRoll(){
-	// 	play(1);
-	// }
 	public  void play(int i) {
-		// TODO Auto-generated method stub
 		
 		//if(i<clipList.size()){
-			Clip c = clipList.get(i);
-			if(c !=null){// && !c.isRunning()){
-				c.stop();
-				c.setFramePosition(0); 
-				c.start();
-			}
-//		}
-//			
-//		else{
-//			System.out.println("not in list: " + clipList.size());
-//		}
+		Clip c = clipList.get(i);
+		if(c !=null){// && !c.isRunning()){
+			c.stop();
+			c.setFramePosition(0); 
+			c.start();
+		}
 	}
+	public void loop(int i) {
+        Clip c = clipList.get(i);
+		c.loop(Clip.LOOP_CONTINUOUSLY);
+    }
 	
 	
 
