@@ -29,18 +29,11 @@ public class Game {
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
-<<<<<<< HEAD
         ArrayList<String>fileList = new ArrayList<String>();
         fileList.add("./sounds/"+"sample.wav");
         player.loadFiles(fileList);
-        player.play(0);
-        //player.loop();
-=======
-        player.makeSound();
-        // player.setFile(0);
-        player.play();
-        player.loop();
->>>>>>> 699cbcebdfc3e7cd0dbee493dd196ce812dc7179
+        //player.play(0);
+        player.loop(0);
         respawnBricks();
 
     }
