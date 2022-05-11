@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Board extends JFrame{
     private Game game = new Game();
-    public static final int WIDTH = 800, HEIGHT = 600, REFRESH = 100;
+    public static final int WIDTH = 750, HEIGHT = 600, REFRESH = 100;
 
     private JPanel panel = new JPanel() {
 		@Override
