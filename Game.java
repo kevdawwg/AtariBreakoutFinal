@@ -29,11 +29,18 @@ public class Game {
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
+<<<<<<< HEAD
         ArrayList<String>fileList = new ArrayList<String>();
         fileList.add("./sounds/"+"sample.wav");
         player.loadFiles(fileList);
         player.play(0);
         //player.loop();
+=======
+        player.makeSound();
+        // player.setFile(0);
+        player.play();
+        player.loop();
+>>>>>>> 699cbcebdfc3e7cd0dbee493dd196ce812dc7179
         respawnBricks();
 
     }
@@ -49,22 +56,26 @@ public class Game {
             gc.draw(g);
         }
         g.setColor(Color.WHITE);
-        g.drawString("Lives: " + lives, 630, 550);
-        g.drawString("Score: " + score, 700, 550);
+        g.drawString("Lives: " + lives, 550, 550);
+        g.drawString("Score: " + score, 650, 550);
     }
 
     public void moveObjects() {
-        // paddle.mouseMove();
-        if (actions.size() > 0) {
-            paddle.buttonMove(actions.remove(0));
-        }
+        paddle.mouseMove();
         ball.move();
+        // if (actions.size() > 0) {
+        //     paddle.buttonMove(actions.remove(0));
+        // }
+        // ball.move();
     }
 
     public void update() {
         moveObjects();
         checkCollisions();
         respawnBricks();
+        if(lives==0){
+            
+        }
     }
 
     public void respawnBricks() {
@@ -74,7 +85,7 @@ public class Game {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 10; c++) {
                     color = colors[r];
-                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 10), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
+                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 10), BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
             }
         }
