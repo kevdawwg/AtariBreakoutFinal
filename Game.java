@@ -10,7 +10,7 @@ public class Game {
     private Ball ball;
     private int score;
     private int lives;
-    private SoundPlayer player;
+    private NewSoundPlayer player;
     private static final int BRICK_WIDTH = 70;
     private static final int BRICK_HEIGHT = 40;
     private static final int PADDLE_WIDTH = 100;
@@ -22,16 +22,18 @@ public class Game {
 
 
     public Game() {
-        player = new SoundPlayer();
+        player = new NewSoundPlayer();
         bricks = new ArrayList();
         actions = new ArrayList();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
-        // player.setFile(0);
-        // player.play();
-        // player.loop();
+        ArrayList<String>fileList = new ArrayList<String>();
+        fileList.add("./sounds/"+"sample.wav");
+        player.loadFiles(fileList);
+        player.play(0);
+        //player.loop();
         respawnBricks();
 
     }
