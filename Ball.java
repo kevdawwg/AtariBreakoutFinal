@@ -7,10 +7,8 @@ public class Ball extends GameComponent {
     }
 
     public void changeDir(boolean isVertical) {
-        if (isVertical)
-            this.setDy(-this.getDy());
-        else
-            this.setDx(-this.getDx());
+        if (isVertical) this.setDy(-this.getDy());
+        else this.setDx(-this.getDx());
     }
 
     public void move() {
