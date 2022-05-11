@@ -1,18 +1,16 @@
 import java.util.*;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.awt.event.ActionEvent;
+
 
 public class Game {
     private Paddle paddle;
     ArrayList<GameComponent> bricks;
+    ArrayList<Integer> actions;
     private Ball ball;
     private int score;
     private int lives;
+    private SoundPlayer player;
     private static final int BRICK_WIDTH = 70;
     private static final int BRICK_HEIGHT = 40;
     private static final int PADDLE_WIDTH = 100;
@@ -22,25 +20,19 @@ public class Game {
     private static final int SPEED_CAP = 25;
     private static final int SPEED_INCREMENT = 5;
 
+
     public Game() {
+        player = new SoundPlayer();
         bricks = new ArrayList();
+        actions = new ArrayList();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
+        // player.setFile(0);
+        // player.play();
+        // player.loop();
         respawnBricks();
-
-        try { //attempting to play sound fdg969
-            Clip clip = AudioSystem.getClip();
-            String filePath = "../sounds/doomBackgroundMusic.wav";
-            // AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("../sounds/" + "doomBackgroundMusic.wav"));
-            clip.open(inputStream);
-            clip.start();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -55,12 +47,15 @@ public class Game {
             gc.draw(g);
         }
         g.setColor(Color.WHITE);
-        g.drawString("Lives: " + lives, 650, 550);
+        g.drawString("Lives: " + lives, 630, 550);
         g.drawString("Score: " + score, 700, 550);
     }
 
     public void moveObjects() {
-        paddle.move();
+        // paddle.mouseMove();
+        if (actions.size() > 0) {
+            paddle.buttonMove(actions.remove(0));
+        }
         ball.move();
     }
 
@@ -110,6 +105,7 @@ public class Game {
                 idx++;
                 continue;
             }
+            //first one is checking the bottom, the second one is checking the top
             boolean ballIntersectingVert = ballRect.y <= brickRect.y+brickRect.height || ballRect.y+ballRect.height >= brickRect.y;
             ball.changeDir(ballIntersectingVert);
             bricks.remove(idx);
@@ -146,5 +142,26 @@ public class Game {
         } 
         return false;
     }
+
+	public void ltHit(ActionEvent e) {
+		actions.add(0);
+	}
+
+    public void leftReleased(ActionEvent e) {
+        System.out.println("Released Left!!");
+    }
+
+	public void rtHit(ActionEvent e) {
+        actions.add(1);
+	}
+
+    public void rightReleased(ActionEvent e) {
+		System.out.println("Released Right!!");
+    }
+	
+
+
+	
+
 
 }
