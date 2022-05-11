@@ -18,14 +18,15 @@ public class Ball extends GameComponent {
     // method used to calculate exit velocity of ball relative to
     // the distance between the ball and the center of the paddle
     public void bounced(Rectangle paddleRect) {
-        int paddleMidpoint = paddleRect.x + paddleRect.width / 2;
-        int ballMidpoint = getRect().x + getRect().width / 2;
-        double distanceFromCenter = Math.abs(paddleMidpoint - ballMidpoint);
-        double normalized = ((distanceFromCenter - paddleRect.width / 2) / (-paddleRect.width / 2)) * 20 - 10;
-        // makes sure the calculation isn't biased towards one direction
-        int sign = getDx() < 0 ? -1 : 1;
-        double newDx = normalized * sign;
-        setDx((int) newDx);
+        float paddleMidpoint = (paddleRect.width / 2) + paddleRect.x;
+        float ballMidpoint = (getRect().width / 2) + getRect().x;
+        float xMax = paddleRect.width / 2;
+        float xMin = -xMax;
+        float dist = ballMidpoint - paddleMidpoint;
+        int normalizedMax = Game.SPEED_CAP * 2;
+        int normalizedMin = -Game.SPEED_CAP;
+        float normalized = normalizedMax * ((dist - xMin) / (paddleRect.width)) + normalizedMin;
+        setDx(Math.round(normalized));
         setDy(-getDy());
     }
 }
