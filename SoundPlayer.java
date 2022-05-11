@@ -8,10 +8,10 @@ import javax.sound.sampled.Clip;
 
 public class SoundPlayer {
     Clip clip;
-    ArrayList<URL> sounds = new ArrayList();
+    ArrayList<URL> sounds = new ArrayList<URL>();
 
     public SoundPlayer() {
-        sounds.add(getClass().getResource("/sound/doomBackgroundMusic.wav"));
+        sounds.add(getClass().getResource("sound/doomBackgroundMusic.wav"));
         System.out.println(sounds.size());
     }
     

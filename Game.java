@@ -31,7 +31,7 @@ public class Game {
         score = 0;
         // player.setFile(0);
         // player.play();
-        // player.loop();
+        // // player.loop();
         respawnBricks();
 
     }
@@ -52,11 +52,12 @@ public class Game {
     }
 
     public void moveObjects() {
-        // paddle.mouseMove();
-        if (actions.size() > 0) {
-            paddle.buttonMove(actions.remove(0));
-        }
+        paddle.mouseMove();
         ball.move();
+        // if (actions.size() > 0) {
+        //     paddle.buttonMove(actions.remove(0));
+        // }
+        // ball.move();
     }
 
     public void update() {
