@@ -29,9 +29,10 @@ public class Game {
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 3;
         score = 0;
+        player.makeSound();
         // player.setFile(0);
-        // player.play();
-        // // player.loop();
+        player.play();
+        player.loop();
         respawnBricks();
 
     }
