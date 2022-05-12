@@ -9,7 +9,8 @@ public class Game {
     private Ball ball;
     private int score;
     private int lives;
-    private NewSoundPlayer player;
+    // private NewSoundPlayer player;
+    private SoundPlayer player;
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
     public static final int PADDLE_WIDTH = 100;
@@ -20,7 +21,7 @@ public class Game {
     public static final int SPEED_INCREMENT = 5;
 
     public Game() {
-        player = new NewSoundPlayer();
+        // player = new NewSoundPlayer();
         bricks = new ArrayList<>();
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
@@ -28,11 +29,15 @@ public class Game {
         lives = 3;
         score = 0;
         ArrayList<String> fileList = new ArrayList<String>();
-        fileList.add("./sounds/" + "d_e1m2 (1).wav");
-        player.loadFiles(fileList);
-        player.play(0);
+        // fileList.add("./sounds/" + "d_e1m2 (1).wav");
+        // player.loadFiles(fileList);
+        // player.play(0);
         // player.loop();
         // player.makeSound();
+        player = new SoundPlayer();
+        player.play(0, 66000000);
+        player.loop();
+        // player.makeSound(2);
         respawnBricks();
 
     }
@@ -85,12 +90,18 @@ public class Game {
     }
 
     public void checkCollisions() {
-        if (checkWalls())
+        if (checkWalls()) {
+            player.play(2, 0);
             return;
-        if (ball.touching(paddle))
+        }
+        if (ball.touching(paddle)) {
             ball.bounced(paddle.getRect());
+            player.play(2, 0);
+            return;
+        }
         if (ball.getRect().y + ball.getRect().height >= Board.HEIGHT) {
             System.out.println("hit the bottom");
+            player.play(1, 0);
             try {
                 lives--;
                 Thread.sleep(3000);
@@ -115,6 +126,7 @@ public class Game {
             boolean ballIntersectingVert = ballRect.y <= brickRect.y + brickRect.height
                     || ballRect.y + ballRect.height >= brickRect.y;
             ball.changeDir(ballIntersectingVert);
+            player.play(2, 0);
             bricks.remove(idx);
             score += 100;
             if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDy()) < SPEED_CAP) {
