@@ -30,7 +30,7 @@ public class Game {
         lives = 3;
         score = 0;
         ArrayList<String>fileList = new ArrayList<String>();
-        fileList.add("./sounds/"+"d_e1m2 (1).wav");
+        fileList.add("./sounds/"+"d_e1m2.wav");
         player.loadFiles(fileList);
         player.play(0);
         //player.loop();
