@@ -42,22 +42,10 @@ public class Board extends JFrame{
 		panel.requestFocusInWindow();
 		addKeys(panel);
 	}
-	/**
-	 * Proper way to acquire keystrokes in an application.  
-	 * This method sets up the mapping which associates a Keystroke (you
-	 * can Google Java KeyStroke API or examples) with an "action command" String 
-	 * 
-	 * The second part maps the action command String with an Action.
-	 * I have shown you two ways this can be done.  You can write the code
-	 * you want executed in the actionPerformed method or you can call the
-	 * method from within the actionPerformed method call.
-	 */
+
 	private void addKeys(JPanel panel) {
-		// this connects keystroke with a command
-		//panel.getInputMap().put(KeyStroke.getKeyStroke("UP"), "up_key");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "rt_key");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "lt_key");
-		//panel.getInputMap().put(KeyStroke.getKeyStroke("released UP"), "up_key_r");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT"), "rt_key_r");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released LEFT"), "lt_key_r");
 		
@@ -65,14 +53,14 @@ public class Board extends JFrame{
 		panel.getActionMap().put("lt_key_r", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("released the left arrow");
+				// System.out.println("released the left arrow");
 				
 			}
 		});
 		panel.getActionMap().put("rt_key_r", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("released the right arrow");
+				// System.out.println("released the right arrow");
 			}
 		});
 		
@@ -80,7 +68,7 @@ public class Board extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("hit the right arrow");
+				// System.out.println("hit the right arrow");
 				game.rtHit(e);
 			}
 		});
@@ -88,7 +76,7 @@ public class Board extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("hit the left arrow");
+				// System.out.println("hit the left arrow");
 				game.ltHit(e);
 			}
 		});
