@@ -1,6 +1,9 @@
 import java.util.*;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Game {
     private Paddle paddle;
@@ -11,6 +14,7 @@ public class Game {
     private int lives;
     // private NewSoundPlayer player;
     private SoundPlayer player;
+    private Image gameOver;
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
     public static final int PADDLE_WIDTH = 100;
@@ -19,6 +23,7 @@ public class Game {
     public static final int BALL_HEIGHT = 10;
     public static final int SPEED_CAP = 25;
     public static final int SPEED_INCREMENT = 5;
+    
 
     public Game() {
         // player = new NewSoundPlayer();
@@ -26,7 +31,7 @@ public class Game {
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 3;
+        lives = 1;
         score = 0;
         ArrayList<String> fileList = new ArrayList<String>();
         // fileList.add("./sounds/" + "d_e1m2 (1).wav");
@@ -37,9 +42,18 @@ public class Game {
         player = new SoundPlayer();
         player.play(0, 66000000);
         player.loop();
-        // player.makeSound(2);
+        loadImages();
         respawnBricks();
 
+    }
+
+    public void loadImages() {
+        try {
+            gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void drawGame(Graphics g) {
@@ -55,6 +69,24 @@ public class Game {
         g.setColor(Color.WHITE);
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
+        if (lives == 0) {
+            // g.setColor(new Color(0, 0, 0, 0.75f)); // 50% darker (change to 0.25f for 25% darker)
+            // g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
+            try {
+                // BufferedImage bimg = ImageIO.read(new File("./images/gameOver.jpg"));
+                // int width = bimg.getWidth();
+                // int height = bimg.getHeight();
+                // int x = Board.WIDTH - width;
+                // int y = Board.HEIGHT - height;
+                // System.out.println("passed");
+                // g.drawImage(gameOver, x/2, y/2, null);
+                Thread.sleep(2000);
+                System.exit(0);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void moveObjects() {
@@ -70,9 +102,6 @@ public class Game {
         moveObjects();
         checkCollisions();
         respawnBricks();
-        if(lives==0){
-            System.exit(0);
-        }
     }
 
     public void respawnBricks() {
