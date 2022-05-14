@@ -40,19 +40,19 @@ public class Game {
         player = new SoundPlayer();
         player.play(0, 66000000);
         player.loop();
-        loadImages();
+        // loadImages();
         respawnBricks();
 
     }
 
-    public void loadImages() {
-        try {
-            gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // public void loadImages() {
+    //     try {
+    //         gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
+    //     }
+    //     catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public void drawGame(Graphics g) {
         drawStuff(g);
