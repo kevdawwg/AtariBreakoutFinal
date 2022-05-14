@@ -2,8 +2,8 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
+// import java.awt.image.BufferedImage;
+// import java.io.File;
 
 public class Game {
     private Paddle paddle;
@@ -31,7 +31,7 @@ public class Game {
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 1;
+        lives = 3;
         score = 0;
         ArrayList<String> fileList = new ArrayList<String>();
         // fileList.add("./sounds/" + "d_e1m2 (1).wav");
@@ -40,10 +40,14 @@ public class Game {
         // player.loop();
         // player.makeSound();
         player = new SoundPlayer();
-        player.play(0, 66000000);
-        player.loop();
+
+        //player.play(0, 66000000);
+        player.play(1, 0);
+        //player.loop();
+
         // loadImages();
         respawnBricks();
+
 
     }
 
