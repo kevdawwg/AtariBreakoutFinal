@@ -27,9 +27,9 @@ public class SoundPlayer {
             Clip clip = AudioSystem.getClip();
             clip.open(aio);
             clip.setMicrosecondPosition(start);
-            clip.start();
             if (loop)
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

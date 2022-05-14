@@ -15,6 +15,8 @@ public class Board extends JFrame {
             super.paintComponent(g);
             game.drawGame(g);
             panel.getToolkit().sync();
+            if (game.lives == 0)
+                timer.stop();
         }
     };
     private Timer timer;

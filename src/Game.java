@@ -12,7 +12,7 @@ public class Game {
     ArrayList<Integer> actions;
     private Ball ball;
     private int score;
-    private int lives;
+    public int lives;
     // private NewSoundPlayer player;
     private SoundPlayer player;
     private Image gameOver;
@@ -33,11 +33,10 @@ public class Game {
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         // ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        ball = new Ball(150, 200, BALL_WIDTH, BALL_HEIGHT, 10, -10);
+        ball = new Ball(150, 350, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 1;
         score = 0;
         player = new SoundPlayer();
-        // player.play(0, 66000000, true);
         player.play(3, 0, true);
         loadImages();
         respawnBricks();
@@ -70,15 +69,12 @@ public class Game {
             // darker)
             // g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
             try {
-                // BufferedImage bimg = ImageIO.read(new File("./images/gameOver.jpg"));
-                // int width = bimg.getWidth();
-                // int height = bimg.getHeight();
-                // int x = Board.WIDTH - width;
-                // int y = Board.HEIGHT - height;
-                // System.out.println("passed");
-                // g.drawImage(gameOver, x/2, y/2, null);
-                Thread.sleep(2000);
-                System.exit(0);
+                BufferedImage bimg = ImageIO.read(new File("./images/gameOver.jpg"));
+                int width = bimg.getWidth();
+                int height = bimg.getHeight();
+                int x = Board.WIDTH - width;
+                int y = Board.HEIGHT - height;
+                g.drawImage(gameOver, x / 2, y / 2, null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,10 +84,6 @@ public class Game {
     public void moveObjects() {
         paddle.mouseMove();
         ball.move();
-        // if (actions.size() > 0) {
-        // paddle.buttonMove(actions.remove(0));
-        // }
-        // ball.move();
     }
 
     public void update() {
@@ -104,20 +96,14 @@ public class Game {
         if (bricks.size() == 0) {
             Color color = null;
             Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE };
-            // for (int r = 0; r < 4; r++) {
-            // for (int c = 0; c < 10; c++) {
-            // color = colors[r];
-            // bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30),
-            // BRICK_WIDTH, BRICK_HEIGHT, color));
-            // }
-            // }
-            for (int i = 0; i < 5; i++) {
-                bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 10; c++) {
+                    color = colors[r];
+                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30),
+                            BRICK_WIDTH, BRICK_HEIGHT, color));
+                }
             }
         }
-        System.out.println(bricks.size());
-        // bricks.add(new GameComponent(200, 50, BRICK_WIDTH, BRICK_HEIGHT,
-        // Color.PINK));
     }
 
     public void checkCollisions() {
@@ -131,11 +117,9 @@ public class Game {
             return;
         }
         if (ball.getRect().y + ball.getRect().height >= Board.HEIGHT) {
-            System.out.println("hit the bottom");
             player.play(1, 0);
             try {
                 lives--;
-                Thread.sleep(3000);
                 int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
                 double rand = Math.random();
                 int xv = (rand > 0.5) ? -10 : 10;
@@ -156,14 +140,8 @@ public class Game {
             // first one is checking the bottom, the second one is checking the top
             boolean ballIntersectingVert = ballRect.y == brickRect.y + brickRect.height
                     || ballRect.y + ballRect.height == brickRect.y;
-            // boolean ballIntersectingHoriz = ballRect.x <= brickRect.x + Game.BRICK_WIDTH
-            // || ballRect.x + ballRect.width >= brickRect.x;
-            // ball.changeDX(ballIntersectingHoriz);
-            // ball.changeDY(ballIntersectingVert);
             ball.changeDir(ballIntersectingVert);
-            System.out.println(ballIntersectingVert);
             player.play(2, 0);
-            System.out.println("hit the brick");
             bricks.remove(idx);
             score += 100;
             if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDy()) < SPEED_CAP) {
