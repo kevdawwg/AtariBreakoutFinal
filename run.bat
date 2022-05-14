@@ -1,4 +1,4 @@
 @ECHO OFF
 
-javac -d bin *.java
+javac -d bin src\*.java
 java -cp bin Main
