@@ -3,8 +3,10 @@ import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
+import java.io.IOException;
 // import java.awt.image.BufferedImage;
-// import java.io.File;
+import java.io.File;
 
 public class Game {
     private Paddle paddle;
@@ -65,7 +67,15 @@ public class Game {
         drawStuff(g);
     }
 
+    public void drawBackground(Graphics g) {
+        Image img = null;
+        try{img = ImageIO.read(new File("./images/space-background.png"));}
+        catch(IOException e){e.printStackTrace();}
+        g.drawImage(img, 0, 0, 750, 600, null);
+    }
+
     public void drawStuff(Graphics g) {
+        drawBackground(g);
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
@@ -113,12 +123,12 @@ public class Game {
     public void respawnBricks() {
         if (bricks.size() == 0) {
             Color color = null;
-            Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE };
-            // for (int r = 0; r < 4; r++) {
-            //     for (int c = 0; c < 10; c++) {
-            //         color = colors[r];
+            Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN };
+            //for (int r = 0; r < 4; r++) {
+            //    for (int c = 0; c < 10; c++) {
+            //        color = colors[r];
             //         bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
-            //     }
+            //    }
             // }
             for (int i = 0; i < 5; i++) {
                 bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
