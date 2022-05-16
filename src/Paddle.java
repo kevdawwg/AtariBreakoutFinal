@@ -13,7 +13,7 @@ public class Paddle extends GameComponent{
 
     public void mouseMove() {
         int x = (int)MouseInfo.getPointerInfo().getLocation().getX();
-        if (x+100> Board.WIDTH) {
+        if (x+Game.PADDLE_WIDTH> Board.WIDTH) {
             return;
         }
         else {
