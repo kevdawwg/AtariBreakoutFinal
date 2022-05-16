@@ -1,9 +1,10 @@
 import java.util.*;
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
+// import java.awt.image.BufferedImage;
+// import java.io.File;
 
 public class Game {
     private Paddle paddle;
@@ -40,21 +41,25 @@ public class Game {
         // player.loop();
         // player.makeSound();==
         player = new SoundPlayer();
-        player.play(0, 66000000);
-        player.loop();
-        loadImages();
+
+        //player.play(0, 66000000);
+        player.play(1, 0);
+        //player.loop();
+
+        // loadImages();
         respawnBricks();
 
+
     }
 
-    public void loadImages() {
-        try {
-            gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // public void loadImages() {
+    //     try {
+    //         gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
+    //     }
+    //     catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public void drawGame(Graphics g) {
         drawStuff(g);
@@ -63,6 +68,7 @@ public class Game {
     public void drawStuff(Graphics g) {
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
+        ball.updateBall(g);
         for (GameComponent gc : bricks) {
             gc.draw(g);
         }
@@ -108,14 +114,18 @@ public class Game {
         if (bricks.size() == 0) {
             Color color = null;
             Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE };
-            for (int r = 0; r < 4; r++) {
-                for (int c = 0; c < 10; c++) {
-                    color = colors[r];
-                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 10), BRICK_WIDTH,
-                            BRICK_HEIGHT, color));
-                }
+            // for (int r = 0; r < 4; r++) {
+            //     for (int c = 0; c < 10; c++) {
+            //         color = colors[r];
+            //         bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
+            //     }
+            // }
+            for (int i = 0; i < 5; i++) {
+                bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
             }
         }
+        System.out.println(bricks.size());
+        // bricks.add(new GameComponent(200, 50, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
     }
 
     public void checkCollisions() {
@@ -152,10 +162,15 @@ public class Game {
                 continue;
             }
             // first one is checking the bottom, the second one is checking the top
-            boolean ballIntersectingVert = ballRect.y <= brickRect.y + brickRect.height
-                    || ballRect.y + ballRect.height >= brickRect.y;
+            boolean ballIntersectingVert = ballRect.y == brickRect.y + brickRect.height
+                    || ballRect.y + ballRect.height == brickRect.y;
+            // boolean ballIntersectingHoriz = ballRect.x <= brickRect.x + Game.BRICK_WIDTH || ballRect.x + ballRect.width >= brickRect.x;
+            // ball.changeDX(ballIntersectingHoriz);
+            // ball.changeDY(ballIntersectingVert);
             ball.changeDir(ballIntersectingVert);
+            System.out.println(ballIntersectingVert);
             player.play(2, 0);
+            System.out.println("hit the brick");
             bricks.remove(idx);
             score += 100;
             if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDy()) < SPEED_CAP) {

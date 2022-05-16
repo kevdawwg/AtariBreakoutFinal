@@ -1,4 +1,3 @@
-import java.net.URL;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -23,8 +22,8 @@ public class SoundPlayer {
             audio = AudioSystem.getAudioInputStream(new File(sounds.get(index)));
             clip = AudioSystem.getClip();
             clip.open(audio);
+            this.clip.setMicrosecondPosition(start);
             clip.start();
-            this.clip.setMicrosecondPosition((long) start);
           } 
           catch(Exception e) {
             e.printStackTrace();

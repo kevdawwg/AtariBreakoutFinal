@@ -1,4 +1,7 @@
-import java.awt.Rectangle;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Ball extends GameComponent {
 
@@ -11,8 +14,23 @@ public class Ball extends GameComponent {
         else this.setDx(-this.getDx());
     }
 
+    // public void changeDX(boolean b) {
+    //     if (b) this.setDx(-this.getDx());
+    // }
+
+    // public void changeDY(boolean b) {
+    //     if (b) this.setDy(-this.getDy());
+    // }
+
     public void move() {
         this.getRect().translate(this.getDx(), this.getDy());
+    }
+
+    public void updateBall(Graphics g) {
+        Image img = null;
+        try{img = ImageIO.read(new File("./images/ball.png"));}
+        catch(IOException e){e.printStackTrace();}
+        g.drawImage(img, getRect().x-5, getRect().y-5, getRect().width+10, getRect().height+10, null);
     }
 
     // method used to calculate exit velocity of ball relative to

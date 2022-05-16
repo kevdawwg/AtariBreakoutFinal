@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class Board extends JFrame{
-    private Game game = new Game();
+    private Game game;// = new Game();
     public static final int WIDTH = 750, HEIGHT = 600, REFRESH = 100;
 
     private JPanel panel = new JPanel() {
@@ -21,6 +21,9 @@ public class Board extends JFrame{
 
     public Board(String string) {
 		super(string);
+		System.out.println("before game");
+		game = new Game();
+		System.out.println("after game");
 		setUpStuff();
 	}
 
@@ -28,7 +31,7 @@ public class Board extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		this.add(panel);
-		this.pack();
+		System.out.println(this);
 		timer = new Timer(REFRESH, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -41,6 +44,8 @@ public class Board extends JFrame{
 		this.setVisible(true);
 		panel.requestFocusInWindow();
 		addKeys(panel);
+		this.pack();
+		
 	}
 
 	private void addKeys(JPanel panel) {
