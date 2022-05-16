@@ -60,6 +60,15 @@ public class Game {
         drawStuff(g);
     }
 
+    public void gameOver(){
+        try {
+            gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void drawStuff(Graphics g) {
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
