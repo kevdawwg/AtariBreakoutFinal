@@ -138,7 +138,7 @@ public class Game {
             player.play(2, 0);
             return;
         }
-        if (ball.getRect().y + ball.getRect().height >= Board.HEIGHT) {
+        if (ball.getRect().y + ball.getRect().height >= 520) {
             System.out.println("hit the bottom");
             player.play(1, 0);
             try {
