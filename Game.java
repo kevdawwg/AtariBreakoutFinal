@@ -22,7 +22,7 @@ public class Game {
     public static final int BALL_WIDTH = 10;
     public static final int BALL_HEIGHT = 10;
     public static final int SPEED_CAP = 25;
-    public static final int SPEED_INCREMENT = 5;
+    public static final int SPEED_INCREMENT = 1;
     
 
     public Game() {
@@ -31,7 +31,7 @@ public class Game {
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 1;
+        lives = 3;
         score = 0;
         ArrayList<String> fileList = new ArrayList<String>();
         // fileList.add("./sounds/" + "d_e1m2 (1).wav");
@@ -58,15 +58,6 @@ public class Game {
 
     public void drawGame(Graphics g) {
         drawStuff(g);
-    }
-
-    public void gameOver(){
-        try {
-            gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void drawStuff(Graphics g) {
