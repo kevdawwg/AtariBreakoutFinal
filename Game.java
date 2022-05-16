@@ -63,6 +63,7 @@ public class Game {
     public void drawStuff(Graphics g) {
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
+        ball.updateBall(g);
         for (GameComponent gc : bricks) {
             gc.draw(g);
         }
