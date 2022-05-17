@@ -3,7 +3,7 @@ import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 // import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,6 +18,7 @@ public class Game {
     // private NewSoundPlayer player;
     private SoundPlayer player;
     private Image gameOver;
+    private BufferedImage gameOverImg;
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
     public static final int PADDLE_WIDTH = 100;
@@ -26,17 +27,21 @@ public class Game {
     public static final int BALL_HEIGHT = 10;
     public static final int SPEED_CAP = 25;
     public static final int SPEED_INCREMENT = 1;
-    
+    public static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 40);
+    private Board board;
 
-    public Game() {
+    public Game(Board board) {
+        this.board = board;
         // player = new NewSoundPlayer();
         bricks = new ArrayList<>();
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 3;
+        lives = 2;
         score = 0;
         ArrayList<String> fileList = new ArrayList<String>();
+        try{gameOverImg = ImageIO.read(new File("./images/gameOver.png"));}
+        catch(IOException e){e.printStackTrace();}
         // fileList.add("./sounds/" + "d_e1m2 (1).wav");
         // player.loadFiles(fileList);
         // player.play(0);
@@ -54,14 +59,21 @@ public class Game {
 
     }
 
-    // public void loadImages() {
-    //     try {
-    //         gameOver =  ImageIO.read(new File("./images/gameOver.jpg"));
-    //     }
-    //     catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
+    public void loadImages(Graphics g) {
+        g.drawString("GAME OVER", 2, 3);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        Image gameOver = null;
+        try {    
+            gameOver =  ImageIO.read(new File("./images/GameOver.jpeg"));
+            g.drawImage(gameOver, 0, 0, 750, 600, null);
+            
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void drawGame(Graphics g) {
         drawStuff(g);
@@ -72,10 +84,26 @@ public class Game {
         try{img = ImageIO.read(new File("./images/space-background.png"));}
         catch(IOException e){e.printStackTrace();}
         g.drawImage(img, 0, 0, 750, 600, null);
+        if(lives==0){
+           
+            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+
+        }
+    }
+
+
+    private void gameEnd(Graphics g){
+            g.setColor(Color.RED);
+            g.setFont(FONT_LARGE);
+            g.drawString("Game Over",300, 320);
     }
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
+        if(lives <= 0){
+            return;
+            
+        }
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
@@ -86,16 +114,11 @@ public class Game {
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
         if (lives == 0) {
-            // g.setColor(new Color(0, 0, 0, 0.75f)); // 50% darker (change to 0.25f for 25% darker)
-            // g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
+            Image img = gameOverImg;
+            g.drawImage(img, 0, 0, 750, 600, null);
             try {
-                // BufferedImage bimg = ImageIO.read(new File("./images/gameOver.jpg"));
-                // int width = bimg.getWidth();
-                // int height = bimg.getHeight();
-                // int x = Board.WIDTH - width;
-                // int y = Board.HEIGHT - height;
-                // System.out.println("passed");
-                // g.drawImage(gameOver, x/2, y/2, null);
+                g.drawString("Game Over",500, 520);
+                System.out.print("Check point!");
                 Thread.sleep(2000);
                 System.exit(0);
             }
@@ -150,10 +173,12 @@ public class Game {
         }
         if (ball.getRect().y + ball.getRect().height >= 505) {
             System.out.println("hit the bottom");
+            
             player.play(1, 0);
             try {
                 lives--;
-                Thread.sleep(3000);
+                board.repaint();
+               // Thread.sleep(3000);
                 int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
                 double rand = Math.random();
                 int xv = (rand > 0.5) ? -10 : 10;
