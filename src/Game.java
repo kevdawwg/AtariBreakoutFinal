@@ -100,9 +100,9 @@ public class Game {
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
-        if(lives <= 0){
+        if(lives == 0){
             return;
-            
+
         }
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
@@ -147,15 +147,15 @@ public class Game {
         if (bricks.size() == 0) {
             Color color = null;
             Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN };
-            //for (int r = 0; r < 4; r++) {
-            //    for (int c = 0; c < 10; c++) {
-            //        color = colors[r];
-            //         bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
-            //    }
-            // }
-            for (int i = 0; i < 5; i++) {
-                bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
+            for (int r = 0; r < 4; r++) {
+               for (int c = 0; c < 10; c++) {
+                   color = colors[r];
+                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
+               }
             }
+            // for (int i = 0; i < 5; i++) {
+            //     bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
+            // }
         }
         System.out.println(bricks.size());
         // bricks.add(new GameComponent(200, 50, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
