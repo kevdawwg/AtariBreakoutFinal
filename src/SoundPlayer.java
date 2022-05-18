@@ -15,6 +15,7 @@ public class SoundPlayer {
         sounds.add(path + "doom.wav");
         sounds.add(path + "wilhelmScream.wav");
         sounds.add(path + "bounce.wav");
+        sounds.add(path + "powerUp.wav");
     }
 
     public void play(int index, int start) {

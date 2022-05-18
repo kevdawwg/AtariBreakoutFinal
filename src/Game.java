@@ -17,10 +17,10 @@ public class Game {
     private Ball ball;
     private int score;
     private int lives;
-    // private NewSoundPlayer player;
     private SoundPlayer player;
-    private Image gameOver;
+    private Image background = null;
     private BufferedImage gameOverImg;
+    private int brickRespawns = 0;
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
     public static final int PADDLE_WIDTH = 100;
@@ -35,55 +35,44 @@ public class Game {
     public Game(Board board) {
         this.board = board;
         // player = new NewSoundPlayer();
+        
         bricks = new ArrayList<>();
         removed = new ArrayList<>();
         actions = new ArrayList<>();
         imgs = new Image[4];
-        try{imgs[0] = ImageIO.read(new File("./images/purple_brick.png"));}
-        catch(IOException e){e.printStackTrace();}
-        try{imgs[1] = ImageIO.read(new File("./images/yellow_brick.png"));}
-        catch(IOException e){e.printStackTrace();}
-        try{imgs[2] = ImageIO.read(new File("./images/green_brick.png"));}
-        catch(IOException e){e.printStackTrace();}
-        try{imgs[3] = ImageIO.read(new File("./images/red_brick.png"));}
-        catch(IOException e){e.printStackTrace();}
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 2;
         score = 0;
-        ArrayList<String> fileList = new ArrayList<String>();
-        try{gameOverImg = ImageIO.read(new File("./images/gameOver.png"));}
-        catch(IOException e){e.printStackTrace();}
-        // fileList.add("./sounds/" + "d_e1m2 (1).wav");
-        // player.loadFiles(fileList);
-        // player.play(0);
-        // player.loop();
-        // player.makeSound();==
         player = new SoundPlayer();
+        player.play(3, 0);
+        player.play(0, 66000000); 
+        player.loop();
 
-        //player.play(0, 66000000);
-        player.play(1, 0);
-        //player.loop();
-
-        // loadImages();
+        loadImages();
         respawnBricks();
-
-
     }
-        
+
+    public void loadImages() {
+        try {    
+            gameOverImg = ImageIO.read(new File("./images/gameOver.png"));
+            background = ImageIO.read(new File("./images/space-background.png"));
+            imgs[0] = ImageIO.read(new File("./images/purple_brick.png"));
+            imgs[1] = ImageIO.read(new File("./images/yellow_brick.png"));
+            imgs[2] = ImageIO.read(new File("./images/green_brick.png"));
+            imgs[3] = ImageIO.read(new File("./images/red_brick.png"));
+            }   
+            catch(IOException e){e.printStackTrace();}
+    }
+
     public void drawGame(Graphics g) {
         drawStuff(g);
     }
 
     public void drawBackground(Graphics g) {
-        Image img = null;
-        try{img = ImageIO.read(new File("./images/space-background.png"));}
-        catch(IOException e){e.printStackTrace();}
-        g.drawImage(img, 0, 0, 750, 600, null);
+        g.drawImage(background, 0, 0, 750, 600, null);
         if(lives==0){
-           
             g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-
         }
     }
 
@@ -109,13 +98,13 @@ public class Game {
         if(lives == 0){
             lives=-1;
             return;
-
         }
         paddle.draw(g, Color.GREEN);
+        paddle.updatePaddle(g);
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
         for(int i = 0; i < bricks.size(); i++){
-            bricks.get(i).draw(g);
+            // bricks.get(i).draw(g);
             int height = bricks.get(i).getRect().y;
             Image img = null;
             if(height == 0 * (BRICK_HEIGHT + 30)){ img = imgs[0]; }
@@ -128,8 +117,7 @@ public class Game {
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
         if (lives == 0) {
-            Image img = gameOverImg;
-            g.drawImage(img, 0, 0, 750, 600, null);
+            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
             try {
                 g.drawString("Game Over",500, 520);
                 System.out.print("Check point!");
@@ -159,6 +147,19 @@ public class Game {
 
     public void respawnBricks() {
         if (bricks.size() == 0) {
+            brickRespawns++;
+            int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
+            double rand = Math.random();
+            int xv = (rand > 0.5) ? -10 : 10;
+            ball = new Ball(randX, 300, BALL_WIDTH, BALL_HEIGHT, xv, 10);
+            try {
+                Thread.sleep(2000);
+                player.play(3, 0);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (brickRespawns > 0) player.play(3, 0);
             Color color = null;
             Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN };
             for (int r = 0; r < 4; r++) {
@@ -167,11 +168,11 @@ public class Game {
                      bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
              }
-            //for (int i = 0; i < 5; i++) {
+            // for (int i = 0; i < 1; i++) {
             //    bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
-            //}
+            // }
         }
-        System.out.println(bricks.size());
+        // System.out.println(bricks.size());
         // bricks.add(new GameComponent(200, 50, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
     }
 
@@ -185,14 +186,14 @@ public class Game {
             player.play(2, 0);
             return;
         }
-        if (ball.getRect().y + ball.getRect().height >= 505) {
+        if (ball.getRect().y + ball.getRect().height >= 520) {
             System.out.println("hit the bottom");
             
             player.play(1, 0);
             try {
                 lives--;
                 board.repaint();
-               // Thread.sleep(3000);
+                Thread.sleep(3000);
                 int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
                 double rand = Math.random();
                 int xv = (rand > 0.5) ? -10 : 10;
@@ -217,19 +218,21 @@ public class Game {
             // ball.changeDX(ballIntersectingHoriz);
             // ball.changeDY(ballIntersectingVert);
             ball.changeDir(ballIntersectingVert);
-            System.out.println(ballIntersectingVert);
+            // System.out.println(ballIntersectingVert);
             player.play(2, 0);
             System.out.println("hit the brick");
             removed.add(idx);
             bricks.remove(idx);
             score += 100;
-            if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDy()) < SPEED_CAP) {
+            if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDx()) < SPEED_CAP) {
                 if (ball.getDx() > 0 || ball.getDy() > 0) {
                     ball.setDx(ball.getDx() + SPEED_INCREMENT);
+                    ball.setDy(ball.getDy() + SPEED_INCREMENT);
                     return;
                 }
                 if (ball.getDx() < 0 || ball.getDy() < 0) {
                     ball.setDx(ball.getDx() - SPEED_INCREMENT);
+                    ball.setDy(ball.getDy() - SPEED_INCREMENT);
                     return;
                 }
             }
