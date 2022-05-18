@@ -208,8 +208,8 @@ public class Game {
                 continue;
             }
             // first one is checking the bottom, the second one is checking the top
-            boolean ballIntersectingVert = ballRect.y >= brickRect.y + brickRect.height
-                    || ballRect.y + ballRect.height <= brickRect.y;
+            boolean ballIntersectingVert = ballRect.y <= brickRect.y + brickRect.height
+                    || ballRect.y + ballRect.height >= brickRect.y;
             // boolean ballIntersectingHoriz = ballRect.x <= brickRect.x + Game.BRICK_WIDTH || ballRect.x + ballRect.width >= brickRect.x;
             // ball.changeDX(ballIntersectingHoriz);
             // ball.changeDY(ballIntersectingVert);
