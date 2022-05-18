@@ -22,7 +22,7 @@ public class Board extends JFrame{
     public Board(String string) {
 		super(string);
 		System.out.println("before game");
-		game = new Game();
+		game = new Game(this);
 		System.out.println("after game");
 		setUpStuff();
 	}
