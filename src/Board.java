@@ -13,7 +13,7 @@ public class Board extends JFrame{
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			game.drawGame(g);
+			game.drawStuff(g);
 			panel.getToolkit().sync();
 		}
 	};
