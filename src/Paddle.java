@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Paddle extends GameComponent{
 
@@ -19,6 +22,13 @@ public class Paddle extends GameComponent{
         else {
             this.getRect().setLocation(x, this.getRect().y);
         }
+    }
+
+    public void updatePaddle(Graphics g) {
+        Image img = null;
+        try{img = ImageIO.read(new File("./images/paddle.png"));}
+        catch(IOException e){e.printStackTrace();}
+        g.drawImage(img, getRect().x, getRect().y, getRect().width, getRect().height, null);
     }
 
     public void buttonMove(int i) {
