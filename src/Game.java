@@ -88,15 +88,26 @@ public class Game {
     }
 
 
-    private void gameEnd(Graphics g){
-            g.setColor(Color.RED);
-            g.setFont(FONT_LARGE);
-            g.drawString("Game Over",300, 320);
+    private void gameEnd(){
+        try {
+            System.out.print("Check point!");
+            ball.setDx(0);
+            ball.setDy(0);
+            Thread.sleep(2000);
+            System.exit(0);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
+        if(lives<0){
+            gameEnd();
+        }
         if(lives == 0){
+            lives=-1;
             return;
         }
         paddle.draw(g, Color.GREEN);
