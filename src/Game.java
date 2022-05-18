@@ -89,6 +89,7 @@ public class Game {
             return;
         }
         paddle.draw(g, Color.GREEN);
+        paddle.updatePaddle(g);
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
         for(int i = 0; i < bricks.size(); i++){
