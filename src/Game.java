@@ -70,23 +70,7 @@ public class Game {
 
 
     }
-
-    public void loadImages(Graphics g) {
-        g.drawString("GAME OVER", 2, 3);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        Image gameOver = null;
-        try {    
-            gameOver =  ImageIO.read(new File("./images/GameOver.jpeg"));
-            g.drawImage(gameOver, 0, 0, 750, 600, null);
-            
-        }
         
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void drawGame(Graphics g) {
         drawStuff(g);
     }
@@ -104,15 +88,26 @@ public class Game {
     }
 
 
-    private void gameEnd(Graphics g){
-            g.setColor(Color.RED);
-            g.setFont(FONT_LARGE);
-            g.drawString("Game Over",300, 320);
+    private void gameEnd(){
+        try {
+            System.out.print("Check point!");
+            ball.setDx(0);
+            ball.setDy(0);
+            Thread.sleep(2000);
+            System.exit(0);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
+        if(lives<0){
+            gameEnd();
+        }
         if(lives == 0){
+            lives=-1;
             return;
 
         }
