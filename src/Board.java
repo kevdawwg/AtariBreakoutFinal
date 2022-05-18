@@ -21,9 +21,7 @@ public class Board extends JFrame{
 
     public Board(String string) {
 		super(string);
-		System.out.println("before game");
 		game = new Game(this);
-		System.out.println("after game");
 		setUpStuff();
 	}
 
@@ -36,7 +34,6 @@ public class Board extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				game.update();
-				
 				panel.repaint();
 			}
 		});

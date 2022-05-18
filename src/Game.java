@@ -10,8 +10,10 @@ import java.io.File;
 
 public class Game {
     private Paddle paddle;
-    ArrayList<GameComponent> bricks;
-    ArrayList<Integer> actions;
+    private ArrayList<GameComponent> bricks;
+    private ArrayList<Integer> actions;
+    private ArrayList<Integer> removed;
+    private Image[] imgs;
     private Ball ball;
     private int score;
     private int lives;
@@ -35,14 +37,13 @@ public class Game {
         // player = new NewSoundPlayer();
         
         bricks = new ArrayList<>();
+        removed = new ArrayList<>();
         actions = new ArrayList<>();
+        imgs = new Image[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
         lives = 2;
         score = 0;
-        ArrayList<String> fileList = new ArrayList<String>();
-        
-
         player = new SoundPlayer();
         player.play(3, 0);
         player.play(0, 66000000); 
@@ -50,14 +51,16 @@ public class Game {
 
         loadImages();
         respawnBricks();
-
-
     }
 
     public void loadImages() {
         try {    
             gameOverImg = ImageIO.read(new File("./images/gameOver.png"));
             background = ImageIO.read(new File("./images/space-background.png"));
+            imgs[0] = ImageIO.read(new File("./images/purple_brick.png"));
+            imgs[1] = ImageIO.read(new File("./images/yellow_brick.png"));
+            imgs[2] = ImageIO.read(new File("./images/green_brick.png"));
+            imgs[3] = ImageIO.read(new File("./images/red_brick.png"));
             }   
             catch(IOException e){e.printStackTrace();}
     }
@@ -82,22 +85,27 @@ public class Game {
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
-        if(lives <= 0){
+        if(lives == 0){
             return;
-            
         }
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
-        for (GameComponent gc : bricks) {
-            gc.draw(g);
+        for(int i = 0; i < bricks.size(); i++){
+            // bricks.get(i).draw(g);
+            int height = bricks.get(i).getRect().y;
+            Image img = null;
+            if(height == 0 * (BRICK_HEIGHT + 30)){ img = imgs[0]; }
+            else if(height == 1 * (BRICK_HEIGHT + 30)){ img = imgs[1]; }
+            else if(height == 2 * (BRICK_HEIGHT + 30)){ img = imgs[2]; }
+            else{ img = imgs[3]; }
+            g.drawImage(img,bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
         }
         g.setColor(Color.WHITE);
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
         if (lives == 0) {
-            Image img = gameOverImg;
-            g.drawImage(img, 0, 0, 750, 600, null);
+            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
             try {
                 g.drawString("Game Over",500, 520);
                 System.out.print("Check point!");
@@ -128,20 +136,28 @@ public class Game {
     public void respawnBricks() {
         if (bricks.size() == 0) {
             brickRespawns++;
+            int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
+            double rand = Math.random();
+            int xv = (rand > 0.5) ? -10 : 10;
+            ball = new Ball(randX, 300, BALL_WIDTH, BALL_HEIGHT, xv, 10);
+            try {
+                Thread.sleep(2000);
+                player.play(3, 0);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
             if (brickRespawns > 0) player.play(3, 0);
             Color color = null;
             Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN };
-            //for (int r = 0; r < 4; r++) {
-            //    for (int c = 0; c < 10; c++) {
-            //        color = colors[r];
-            //         bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
-            //    }
-            // }
-            for (int i = 0; i < 5; i++) {
-                bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
-            }
-            // for (int i = 0; i < 5; i++) {
-            //     bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 200, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 10; c++) {
+                    color = colors[r];
+                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
+                }
+             }
+            // for (int i = 0; i < 1; i++) {
+            //    bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
             // }
         }
         // System.out.println(bricks.size());
@@ -165,7 +181,7 @@ public class Game {
             try {
                 lives--;
                 board.repaint();
-               // Thread.sleep(3000);
+                Thread.sleep(3000);
                 int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
                 double rand = Math.random();
                 int xv = (rand > 0.5) ? -10 : 10;
@@ -192,7 +208,8 @@ public class Game {
             ball.changeDir(ballIntersectingVert);
             // System.out.println(ballIntersectingVert);
             player.play(2, 0);
-            // System.out.println("hit the brick");
+            System.out.println("hit the brick");
+            removed.add(idx);
             bricks.remove(idx);
             score += 100;
             if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDx()) < SPEED_CAP) {
@@ -203,7 +220,7 @@ public class Game {
                 }
                 if (ball.getDx() < 0 || ball.getDy() < 0) {
                     ball.setDx(ball.getDx() - SPEED_INCREMENT);
-                    ball.setDx(ball.getDy() - SPEED_INCREMENT);
+                    ball.setDy(ball.getDy() - SPEED_INCREMENT);
                     return;
                 }
             }
