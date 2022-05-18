@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+// import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Game {
@@ -13,11 +15,10 @@ public class Game {
     private Ball ball;
     private int score;
     private int lives;
-    // private NewSoundPlayer player;
     private SoundPlayer player;
-    private Image gameOver;
-    private BufferedImage bimg;
-    private int brickRespawns;
+    private Image background = null;
+    private BufferedImage gameOverImg;
+    private int brickRespawns = 0;
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
     public static final int PADDLE_WIDTH = 100;
@@ -26,19 +27,22 @@ public class Game {
     public static final int BALL_HEIGHT = 10;
     public static final int SPEED_CAP = 25;
     public static final int SPEED_INCREMENT = 1;
-    
+    public static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 40);
+    private Board board;
 
-    public Game() {
+    public Game(Board board) {
+        this.board = board;
         // player = new NewSoundPlayer();
         
         bricks = new ArrayList<>();
         actions = new ArrayList<>();
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
-        // ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        ball = new Ball(200, 350, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 1;
-        brickRespawns = 0;
+        ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
+        lives = 2;
         score = 0;
+        ArrayList<String> fileList = new ArrayList<String>();
+        
+
         player = new SoundPlayer();
         player.play(3, 0);
         player.play(0, 66000000); 
@@ -51,20 +55,37 @@ public class Game {
     }
 
     public void loadImages() {
-        try {
-            gameOver =  ImageIO.read(new File("./images/gameOver.jpeg"));
-            bimg =  ImageIO.read(new File("./images/gameOver.jpeg"));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        try {    
+            gameOverImg = ImageIO.read(new File("./images/gameOver.png"));
+            background = ImageIO.read(new File("./images/space-background.png"));
+            }   
+            catch(IOException e){e.printStackTrace();}
     }
 
     public void drawGame(Graphics g) {
         drawStuff(g);
     }
 
+    public void drawBackground(Graphics g) {
+        g.drawImage(background, 0, 0, 750, 600, null);
+        if(lives==0){
+            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+        }
+    }
+
+
+    private void gameEnd(Graphics g){
+            g.setColor(Color.RED);
+            g.setFont(FONT_LARGE);
+            g.drawString("Game Over",300, 320);
+    }
+
     public void drawStuff(Graphics g) {
+        drawBackground(g);
+        if(lives <= 0){
+            return;
+            
+        }
         paddle.draw(g, Color.GREEN);
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
@@ -75,19 +96,11 @@ public class Game {
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
         if (lives == 0) {
-            // g.setColor(new Color(0, 0, 0, 0.75f)); // 50% darker (change to 0.25f for 25% darker)
-            // g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
+            Image img = gameOverImg;
+            g.drawImage(img, 0, 0, 750, 600, null);
             try {
-                // int width = bimg.getWidth(); 
-                //frame doesnt get a change to redraw itself, everything is set but not executed
-                // int height = bimg.getHeight();
-                // int x = Board.WIDTH - width;
-                // int y = Board.HEIGHT - height;
-                // g.drawImage(gameOver, x/2, y/2, null);
-                // g.setColor(Color.WHITE);
-                // g.drawString("HELLO", 500, 500);
-                // System.out.println(gameOver);
-                // System.out.println("passed");
+                g.drawString("Game Over",500, 520);
+                System.out.print("Check point!");
                 Thread.sleep(2000);
                 System.exit(0);
             }
@@ -117,12 +130,15 @@ public class Game {
             brickRespawns++;
             if (brickRespawns > 0) player.play(3, 0);
             Color color = null;
-            Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE };
-            for (int r = 0; r < 4; r++) {
-                for (int c = 0; c < 10; c++) {
-                    color = colors[r];
-                    bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
-                }
+            Color[] colors = new Color[] { Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN };
+            //for (int r = 0; r < 4; r++) {
+            //    for (int c = 0; c < 10; c++) {
+            //        color = colors[r];
+            //         bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
+            //    }
+            // }
+            for (int i = 0; i < 5; i++) {
+                bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 40, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
             }
             // for (int i = 0; i < 5; i++) {
             //     bricks.add(new GameComponent(i * (BRICK_WIDTH + 5) + 300, 200, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
@@ -144,10 +160,12 @@ public class Game {
         }
         if (ball.getRect().y + ball.getRect().height >= 520) {
             System.out.println("hit the bottom");
+            
             player.play(1, 0);
             try {
                 lives--;
-                Thread.sleep(3000);
+                board.repaint();
+               // Thread.sleep(3000);
                 int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
                 double rand = Math.random();
                 int xv = (rand > 0.5) ? -10 : 10;
