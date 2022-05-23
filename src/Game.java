@@ -20,6 +20,7 @@ public class Game {
     private SoundPlayer player;
     private Image background = null;
     private BufferedImage gameOverImg;
+    private BufferedImage gameStartImg;
     private int brickRespawns = 0;
     private GameComponent startScreen;
     private boolean gameStart = false;
@@ -80,6 +81,7 @@ public class Game {
     public void loadImages() {
         try {    
             gameOverImg = ImageIO.read(new File("./images/gameOver.png"));
+            gameStartImg = ImageIO.read(new File("./images/gameStart.png"));
             background = ImageIO.read(new File("./images/space-background.png"));
             imgs[0] = ImageIO.read(new File("./images/purple_brick.png"));
             imgs[1] = ImageIO.read(new File("./images/yellow_brick.png"));
@@ -94,11 +96,20 @@ public class Game {
         if(lives==0){
             g.drawImage(gameOverImg, 0, 0, 750, 600, null);
         }
+        if(lives==4){
+            g.drawImage(gameStartImg, 0, 0, 750, 600, null);
+        }
     }
 
     public void drawStuff(Graphics g) {
         starting(g);
         drawBackground(g);
+        if(lives==4){
+            return;
+        }
+        if(lives<0){
+            gameEnd();
+        }
         if(lives == 0){
             return;
         }
@@ -137,10 +148,10 @@ public class Game {
     public void respawnBricks() {
         if (bricks.size() == 0) {
             brickRespawns++;
-            // int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
-            // double rand = Math.random();
-            // int xv = (rand > 0.5) ? -10 : 10;
-            // ball = new Ball(randX, 300, BALL_WIDTH, BALL_HEIGHT, xv, 10);
+            int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
+            double rand = Math.random();
+            int xv = (rand > 0.5) ? -10 : 10;
+            ball = new Ball(randX, 400, BALL_WIDTH, BALL_HEIGHT, xv, -10);
             try {
                 Thread.sleep(2000);
                 player.play(3, 0);
@@ -156,7 +167,7 @@ public class Game {
                     color = colors[r];
                      bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 60, BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
-             }
+            }
             // for (int i = 0; i < 2; i++) {
             //    bricks.add(new GameComponent(i * (BRICK_WIDTH + 5)+300, 180, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
             // }
