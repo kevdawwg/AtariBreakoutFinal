@@ -221,22 +221,22 @@ public class Game {
             // boolean ballIntersectingHoriz = ballRect.x <= brickRect.x + Game.BRICK_WIDTH || ballRect.x + ballRect.width >= brickRect.x;
             // ball.changeDX(ballIntersectingHoriz);
             // ball.changeDY(ballIntersectingVert);
-            ball.changeDir(ballIntersectingVert);
-            // System.out.println(ballIntersectingVert);
-            player.play(2, 0);
-            System.out.println("hit the brick");
-            removed.add(idx);
-            bricks.remove(idx);
-            score += 100;
-            if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDx()) < SPEED_CAP) {
-                if (ball.getDx() > 0 || ball.getDy() > 0) {
-                    ball.setDx(ball.getDx() + SPEED_INCREMENT);
-                    return;
-                }
-                if (ball.getDx() < 0 || ball.getDy() < 0) {
-                    ball.setDx(ball.getDx() - SPEED_INCREMENT);
-                    return;
-                }
+                ball.changeDir(ballIntersectingVert);
+                // System.out.println(ballIntersectingVert);
+                player.play(2, 0);
+                System.out.println("hit the brick");
+                removed.add(idx);
+                bricks.remove(idx);
+                score += 100;
+                if (Math.abs(ball.getDx()) < SPEED_CAP || Math.abs(ball.getDx()) < SPEED_CAP) {
+                    if (ball.getDx() > 0 || ball.getDy() > 0) {
+                        ball.setDx(ball.getDx() + SPEED_INCREMENT);
+                        return;
+                    }
+                    if (ball.getDx() < 0 || ball.getDy() < 0) {
+                        ball.setDx(ball.getDx() - SPEED_INCREMENT);
+                        return;
+                    }
             }
         }
     }
