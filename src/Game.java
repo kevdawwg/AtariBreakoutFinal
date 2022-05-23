@@ -46,8 +46,7 @@ public class Game {
         imgs = new Image[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        // ball = new Ball(180, 80, BALL_WIDTH, BALL_HEIGHT, 10, 10);
-        lives = 2;
+        lives = 5;
         score = 0;
         player = new SoundPlayer();
         player.play(0, 66000000); 
@@ -55,12 +54,6 @@ public class Game {
 
         loadImages();
         respawnBricks();
-    }
-
-    public void starting(Graphics g) {
-        startScreen = new GameComponent((Board.WIDTH-START_WIDTH)/2, (Board.HEIGHT-START_HEIGHT), START_WIDTH, START_HEIGHT, Color.PINK);
-        startScreen.draw(g);
-        System.out.println("yea");
     }
 
     public void moveObjects() {
@@ -96,14 +89,28 @@ public class Game {
         if(lives==0){
             g.drawImage(gameOverImg, 0, 0, 750, 600, null);
         }
-        if(lives==4){
+        if(lives==5){
             g.drawImage(gameStartImg, 0, 0, 750, 600, null);
         }
     }
 
+    private void gameStart(){
+        try {
+            ball.setDx(0);
+            ball.setDy(0);
+            Thread.sleep(2000);
+            ball.setDx(-10);
+            ball.setDy(-10);
+            lives--;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void gameEnd(){
         try {
-            System.out.print("Check point!");
+            //System.out.print("Check point!");
             ball.setDx(0);
             ball.setDy(0);
             Thread.sleep(2000);
@@ -115,15 +122,20 @@ public class Game {
     }
 
     public void drawStuff(Graphics g) {
-        starting(g);
+        // starting(g);
         drawBackground(g);
-        if(lives==4){
+        if(lives==5){
+            lives--;
             return;
         }
-        if(lives<0){
+        else if(lives==4){
+            gameStart();
+        }
+        else if(lives<0){
             gameEnd();
         }
-        if(lives == 0){
+        else if(lives == 0){
+            lives=-1;
             return;
         }
         paddle.draw(g, Color.GREEN);
@@ -143,18 +155,18 @@ public class Game {
         g.setColor(Color.WHITE);
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
-        if (lives == 0) {
-            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-            try {
-                g.drawString("Game Over",500, 520);
-                System.out.print("Check point!");
-                Thread.sleep(2000);
-                System.exit(0);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        // if (lives == 0) {
+        //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+        //     try {
+        //         g.drawString("Game Over",500, 520);
+        //         System.out.print("Check point!");
+        //         Thread.sleep(2000);
+        //         System.exit(0);
+        //     }
+        //     catch (Exception e) {
+        //         e.printStackTrace();
+        //     }
+        // }
     }
 
 
