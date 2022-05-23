@@ -21,12 +21,17 @@ public class Game {
     private Image background = null;
     private BufferedImage gameOverImg;
     private int brickRespawns = 0;
+    private GameComponent startScreen;
+    private boolean gameStart = false;
+    public static final int START_WIDTH = 200;
+    public static final int START_HEIGHT = 150; 
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
     public static final int PADDLE_WIDTH = 100;
     public static final int PADDLE_HEIGHT = 20;
     public static final int BALL_WIDTH = 10;
     public static final int BALL_HEIGHT = 10;
+    public static final int BRICK_SPACE = 30;
     public static final int SPEED_CAP = 25;
     public static final int SPEED_INCREMENT = 1;
     public static final Font FONT_LARGE = new Font("Times New Roman", Font.BOLD, 40);
@@ -34,23 +39,27 @@ public class Game {
 
     public Game(Board board) {
         this.board = board;
-        // player = new NewSoundPlayer();
-        
         bricks = new ArrayList<>();
         removed = new ArrayList<>();
         actions = new ArrayList<>();
         imgs = new Image[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
+        // ball = new Ball(180, 80, BALL_WIDTH, BALL_HEIGHT, 10, 10);
         lives = 2;
         score = 0;
         player = new SoundPlayer();
-        player.play(3, 0);
         player.play(0, 66000000); 
         player.loop();
 
         loadImages();
         respawnBricks();
+    }
+
+    public void starting(Graphics g) {
+        startScreen = new GameComponent((Board.WIDTH-START_WIDTH)/2, (Board.HEIGHT-START_HEIGHT), START_WIDTH, START_HEIGHT, Color.PINK);
+        startScreen.draw(g);
+        System.out.println("yea");
     }
 
     public void moveObjects() {
@@ -87,27 +96,10 @@ public class Game {
         }
     }
 
-
-    private void gameEnd(){
-        try {
-            System.out.print("Check point!");
-            ball.setDx(0);
-            ball.setDy(0);
-            Thread.sleep(2000);
-            System.exit(0);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void drawStuff(Graphics g) {
+        starting(g);
         drawBackground(g);
-        if(lives<0){
-            gameEnd();
-        }
         if(lives == 0){
-            lives=-1;
             return;
         }
         paddle.draw(g, Color.GREEN);
@@ -115,14 +107,14 @@ public class Game {
         ball.draw(g, Color.WHITE);
         ball.updateBall(g);
         for(int i = 0; i < bricks.size(); i++){
-            // bricks.get(i).draw(g);
+            bricks.get(i).draw(g);
             int height = bricks.get(i).getRect().y;
             Image img = null;
-            if(height == 1 * (BRICK_HEIGHT + 30)){ img = imgs[0]; }
-            else if(height == 2 * (BRICK_HEIGHT + 30)){ img = imgs[1]; }
-            else if(height == 3 * (BRICK_HEIGHT + 30)){ img = imgs[2]; }
-            else{ img = imgs[3]; }
-            g.drawImage(img,bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
+            if(height == (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[0]; 
+            else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[1];
+            else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[2]; 
+            else img = imgs[3]; 
+            g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
         }
         g.setColor(Color.WHITE);
         g.drawString("Lives: " + lives, 550, 550);
@@ -162,7 +154,7 @@ public class Game {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 10; c++) {
                     color = colors[r];
-                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + 30), BRICK_WIDTH, BRICK_HEIGHT, color));
+                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 60, BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
              }
             // for (int i = 0; i < 2; i++) {
@@ -208,15 +200,14 @@ public class Game {
                 continue;
             }
             // first one is checking the bottom, the second one is checking the top
-            boolean ballIntersectingVert = ballRect.y <= brickRect.y + brickRect.height
-                    || ballRect.y + ballRect.height >= brickRect.y;
+            boolean ballIntersectingVert = ballRect.y >= brickRect.y + brickRect.height
+                    || ballRect.y + ballRect.height <= brickRect.y;
             // boolean ballIntersectingHoriz = ballRect.x <= brickRect.x + Game.BRICK_WIDTH || ballRect.x + ballRect.width >= brickRect.x;
             // ball.changeDX(ballIntersectingHoriz);
             // ball.changeDY(ballIntersectingVert);
             ball.changeDir(ballIntersectingVert);
             // System.out.println(ballIntersectingVert);
             player.play(2, 0);
-            System.out.println("hit the brick");
             removed.add(idx);
             bricks.remove(idx);
             score += 100;
