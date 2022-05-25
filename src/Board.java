@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class Board extends JFrame{
     private Game game;// = new Game();
+	JButton startButton = new JButton("START");
     public static final int WIDTH = 750, HEIGHT = 600, REFRESH = 60;
 
     private JPanel panel = new JPanel() {
@@ -23,6 +24,10 @@ public class Board extends JFrame{
 		super(string);
 		game = new Game(this);
 		setUpStuff();
+	}
+
+	public void button(){
+		
 	}
 
     private void setUpStuff() {
@@ -51,6 +56,7 @@ public class Board extends JFrame{
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "lt_key");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT"), "rt_key_r");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released LEFT"), "lt_key_r");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("Game Start"), "space_key_r");
 		
 		
 		panel.getActionMap().put("lt_key_r", new AbstractAction() {
@@ -83,6 +89,15 @@ public class Board extends JFrame{
 				game.ltHit(e);
 			}
 		});
+		panel.getActionMap().put("space_key",new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("hit space");
+				game.ltHit(e);
+			}
+		});
+		
 	}
     
 }

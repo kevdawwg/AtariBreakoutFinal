@@ -1,5 +1,8 @@
 import java.util.*;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -51,7 +54,6 @@ public class Game {
         player = new SoundPlayer();
         player.play(0, 66000000); 
         player.loop();
-
         loadImages();
         respawnBricks();
     }
@@ -91,6 +93,7 @@ public class Game {
         }
         if(lives==5){
             g.drawImage(gameStartImg, 0, 0, 750, 600, null);
+
         }
     }
 
@@ -121,14 +124,24 @@ public class Game {
         }
     }
 
+    private void allowRun(KeyEvent k){
+        int key = k.getKeyCode();
+        if (key == KeyEvent.VK_SPACE) {
+            lives--;
+        }
+    }
+    
+
     public void drawStuff(Graphics g) {
         // starting(g);
         drawBackground(g);
         if(lives==5){
+            
             lives--;
             return;
         }
         else if(lives==4){
+            
             gameStart();
         }
         else if(lives<0){
@@ -155,19 +168,7 @@ public class Game {
         g.setColor(Color.WHITE);
         g.drawString("Lives: " + lives, 550, 550);
         g.drawString("Score: " + score, 650, 550);
-        // if (lives == 0) {
-        //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-        //     try {
-        //         g.drawString("Game Over",500, 520);
-        //         System.out.print("Check point!");
-        //         Thread.sleep(2000);
-        //         System.exit(0);
-        //     }
-        //     catch (Exception e) {
-        //         e.printStackTrace();
-        //     }
-        // }
-    }
+        }
 
 
     public void respawnBricks() {
