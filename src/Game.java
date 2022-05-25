@@ -159,9 +159,9 @@ public class Game {
                 bricks.get(i).draw(g);
                 int height = bricks.get(i).getRect().y;
                 Image img = null;
-                if(height == (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[0]; 
-                else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[1];
-                else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[2]; 
+                if(height == (BRICK_HEIGHT + BRICK_SPACE) + 30) img = imgs[0]; 
+                else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 30) img = imgs[1];
+                else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 30) img = imgs[2]; 
                 else img = imgs[3]; 
                 g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
             }
