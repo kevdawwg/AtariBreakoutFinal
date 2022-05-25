@@ -81,7 +81,7 @@ public class Game {
     public void loadImages() {
         try {    
             gameOverImg = ImageIO.read(new File("./images/gameOver.png"));
-            gameStartImg = ImageIO.read(new File("./images/gameStart.png"));
+            gameStartImg = ImageIO.read(new File("./images/retroBackground.jpeg"));
             background = ImageIO.read(new File("./images/space-background.png"));
             imgs[0] = ImageIO.read(new File("./images/purple_brick.png"));
             imgs[1] = ImageIO.read(new File("./images/yellow_brick.png"));
@@ -92,9 +92,8 @@ public class Game {
     }
     
     public void drawBackground(Graphics g) {
-        g.drawImage(background, 0, 0, 750, 600, null);
         if (!gameStart) g.drawImage(gameStartImg, 0, 0, 750, 600, null);
-        else g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+        else g.drawImage(background, 0, 0, 750, 600, null);
         // if(lives==0){
         //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
         // }
@@ -136,37 +135,30 @@ public class Game {
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
-        // if(lives==5){
-        //     lives--;
-        //     return;
-        // }
-        // else if(lives==4){
-        //     gameStart();
-        // }
-        // else if(lives<0){
-        //     gameEnd();
-        // }
-        // else if(lives == 0){
-        //     lives=-1;
-        //     return;
-        // }
-        paddle.draw(g, Color.GREEN);
-        paddle.updatePaddle(g);
-        ball.draw(g, Color.WHITE);
-        ball.updateBall(g);
-        for(int i = 0; i < bricks.size(); i++){
-            bricks.get(i).draw(g);
-            int height = bricks.get(i).getRect().y;
-            Image img = null;
-            if(height == (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[0]; 
-            else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[1];
-            else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[2]; 
-            else img = imgs[3]; 
-            g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
+        if (!gameStart) {
+            g.setColor(Color.PINK);
+            g.setFont(FONT_LARGE);
+            g.drawString("Press space", 270, 450);
         }
-        g.setColor(Color.WHITE);
-        g.drawString("Lives: " + lives, 550, 550);
-        g.drawString("Score: " + score, 650, 550);
+        if (gameStart) {
+            paddle.draw(g, Color.GREEN);
+            paddle.updatePaddle(g);
+            ball.draw(g, Color.WHITE);
+            ball.updateBall(g);
+            for(int i = 0; i < bricks.size(); i++){
+                bricks.get(i).draw(g);
+                int height = bricks.get(i).getRect().y;
+                Image img = null;
+                if(height == (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[0]; 
+                else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[1];
+                else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[2]; 
+                else img = imgs[3]; 
+                g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
+            }
+            g.setColor(Color.WHITE);
+            g.drawString("Lives: " + lives, 550, 550);
+            g.drawString("Score: " + score, 650, 550);
+        }
         // if (lives == 0) {
         //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
         //     try {
