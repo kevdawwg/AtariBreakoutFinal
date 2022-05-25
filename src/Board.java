@@ -65,13 +65,7 @@ public class Board extends JFrame{
 				// System.out.println("space hit");
 			}
 		});
-		panel.getActionMap().put("lt_key_r", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("released the left arrow");
-				
-			}
-		});
+		
 		panel.getActionMap().put("rt_key_r", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -84,7 +78,7 @@ public class Board extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("hit the right arrow");
-				game.rtHit(e);
+				// game.rtHit(e);
 			}
 		});
 		panel.getActionMap().put("lt_key",new AbstractAction() {

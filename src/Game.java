@@ -49,7 +49,7 @@ public class Game {
         imgs = new Image[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 5;
+        lives = 3;
         score = 0;
         player = new SoundPlayer();
         player.play(0, 66000000); 
@@ -96,9 +96,9 @@ public class Game {
     public void drawBackground(Graphics g) {
         if (!gameStart) g.drawImage(gameStartImg, 0, 0, 750, 600, null);
         else g.drawImage(background, 0, 0, 750, 600, null);
-        // if(lives==0){
-        //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-        // }
+        if(lives==0){
+            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+        }
         // if(lives==5){
         //     g.drawImage(gameStartImg, 0, 0, 750, 600, null);
         // }
@@ -145,6 +145,9 @@ public class Game {
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
+        if(lives<=0){
+            return;
+        }
         if (!gameStart) {
             g.setColor(Color.PINK);
             g.setFont(FONT_LARGE);
