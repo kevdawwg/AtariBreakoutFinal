@@ -13,8 +13,8 @@ public class Board extends JFrame{
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			game.drawStuff(g);
 			panel.getToolkit().sync();
+			game.drawStuff(g);
 		}
 	};
     private Timer timer;
@@ -51,8 +51,15 @@ public class Board extends JFrame{
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "lt_key");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT"), "rt_key_r");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released LEFT"), "lt_key_r");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "space");
 		
-		
+		panel.getActionMap().put("space", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.spaceHit(e);
+				// System.out.println("space hit");
+			}
+		});
 		panel.getActionMap().put("lt_key_r", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

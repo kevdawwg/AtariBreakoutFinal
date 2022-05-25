@@ -56,12 +56,6 @@ public class Game {
         respawnBricks();
     }
 
-    public void starting(Graphics g) {
-        startScreen = new GameComponent((Board.WIDTH-START_WIDTH)/2, (Board.HEIGHT-START_HEIGHT), START_WIDTH, START_HEIGHT, Color.PINK);
-        startScreen.draw(g);
-        System.out.println("yea");
-    }
-
     public void moveObjects() {
         paddle.mouseMove();
         ball.move();
@@ -72,9 +66,16 @@ public class Game {
     }
 
     public void update() {
-        respawnBricks();
-        moveObjects();
-        checkCollisions();
+        // System.out.println(actions.size());
+        if (actions.size() > 0 && actions.get(0) == 2) {
+            gameStart = true;
+            actions.remove(0);
+        } 
+        if (gameStart) {
+            respawnBricks();
+            moveObjects();
+            checkCollisions();
+        }
     }
     
     public void loadImages() {
@@ -92,22 +93,28 @@ public class Game {
     
     public void drawBackground(Graphics g) {
         g.drawImage(background, 0, 0, 750, 600, null);
-        if(lives==0){
-            g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-        }
-        if(lives==5){
-            g.drawImage(gameStartImg, 0, 0, 750, 600, null);
-        }
+        if (!gameStart) g.drawImage(gameStartImg, 0, 0, 750, 600, null);
+        else g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+        // if(lives==0){
+        //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+        // }
+        // if(lives==5){
+        //     g.drawImage(gameStartImg, 0, 0, 750, 600, null);
+        // }
     }
 
     private void gameStart(){
         try {
+            // JButton button = new Button("Play");
+            // button.setBounds(Board.WIDTH/2, Board.HEIGHT/2, 90, 30);
+            // button.addActionListener(new ActionListener());
             ball.setDx(0);
             ball.setDy(0);
             Thread.sleep(2000);
             ball.setDx(-10);
             ball.setDy(-10);
             lives--;
+            
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -128,22 +135,21 @@ public class Game {
     }
 
     public void drawStuff(Graphics g) {
-        starting(g);
         drawBackground(g);
-        if(lives==5){
-            lives--;
-            return;
-        }
-        else if(lives==4){
-            gameStart();
-        }
-        else if(lives<0){
-            gameEnd();
-        }
-        else if(lives == 0){
-            lives=-1;
-            return;
-        }
+        // if(lives==5){
+        //     lives--;
+        //     return;
+        // }
+        // else if(lives==4){
+        //     gameStart();
+        // }
+        // else if(lives<0){
+        //     gameEnd();
+        // }
+        // else if(lives == 0){
+        //     lives=-1;
+        //     return;
+        // }
         paddle.draw(g, Color.GREEN);
         paddle.updatePaddle(g);
         ball.draw(g, Color.WHITE);
@@ -291,6 +297,10 @@ public class Game {
 
     public void rightReleased(ActionEvent e) {
         System.out.println("Released Right!!");
+    }
+
+    public void spaceHit(ActionEvent e) {
+        actions.add(2); // 2 is only for spacebar, 0 and 1 are for left and right
     }
 
 }
