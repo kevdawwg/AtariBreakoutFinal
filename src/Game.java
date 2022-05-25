@@ -1,5 +1,8 @@
 import java.util.*;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -51,7 +54,6 @@ public class Game {
         player = new SoundPlayer();
         player.play(0, 66000000); 
         player.loop();
-
         loadImages();
         respawnBricks();
     }
@@ -133,6 +135,14 @@ public class Game {
         }
     }
 
+    private void allowRun(KeyEvent k){
+        int key = k.getKeyCode();
+        if (key == KeyEvent.VK_SPACE) {
+            lives--;
+        }
+    }
+    
+
     public void drawStuff(Graphics g) {
         drawBackground(g);
         if (!gameStart) {
@@ -194,7 +204,7 @@ public class Game {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 10; c++) {
                     color = colors[r];
-                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 60, BRICK_WIDTH, BRICK_HEIGHT, color));
+                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 30, BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
             }
             // for (int i = 0; i < 2; i++) {
