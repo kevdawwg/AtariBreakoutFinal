@@ -136,7 +136,6 @@ public class Game {
         // starting(g);
         drawBackground(g);
         if(lives==5){
-            
             lives--;
             return;
         }
@@ -159,9 +158,9 @@ public class Game {
             bricks.get(i).draw(g);
             int height = bricks.get(i).getRect().y;
             Image img = null;
-            if(height == (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[0]; 
-            else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[1];
-            else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 60) img = imgs[2]; 
+            if(height == (BRICK_HEIGHT + BRICK_SPACE) + 30) img = imgs[0]; 
+            else if(height == 2 * (BRICK_HEIGHT + BRICK_SPACE) + 30) img = imgs[1];
+            else if(height == 3 * (BRICK_HEIGHT + BRICK_SPACE) + 30) img = imgs[2]; 
             else img = imgs[3]; 
             g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT,null);
         }
@@ -191,7 +190,7 @@ public class Game {
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 10; c++) {
                     color = colors[r];
-                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 60, BRICK_WIDTH, BRICK_HEIGHT, color));
+                     bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 30, BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
             }
             // for (int i = 0; i < 2; i++) {
