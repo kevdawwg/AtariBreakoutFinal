@@ -289,18 +289,6 @@ public class Game {
         actions.add(0);
     }
 
-    public void leftReleased(ActionEvent e) {
-        System.out.println("Released Left!!");
-    }
-
-    public void rtHit(ActionEvent e) {
-        actions.add(1);
-    }
-
-    public void rightReleased(ActionEvent e) {
-        System.out.println("Released Right!!");
-    }
-
     public void spaceHit(ActionEvent e) {
         actions.add(2); // 2 is only for spacebar, 0 and 1 are for left and right
     }
