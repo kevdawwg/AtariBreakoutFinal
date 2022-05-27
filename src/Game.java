@@ -72,6 +72,17 @@ public class Game {
         if (actions.size() > 0 && actions.get(0) == 2) {
             gameStart = true;
             actions.remove(0);
+            if(lives<=0){
+                
+                score = 0;
+                lives = 3;
+                bricks = new ArrayList<>();
+                respawnBricks();
+                try {Thread.sleep(1000);}
+                catch (Exception e) {e.printStackTrace();}
+                ball.setDx(10);
+                ball.setDy(10);
+            }
         } 
         if (gameStart) {
             respawnBricks();
@@ -98,6 +109,9 @@ public class Game {
         else g.drawImage(background, 0, 0, 750, 600, null);
         if(lives==0){
             g.drawImage(gameOverImg, 0, 0, 750, 600, null);
+            g.setColor(Color.ORANGE);
+            g.setFont(FONT_LARGE);
+            g.drawString("Press space to play again", 180, 450);
         }
         // if(lives==5){
         //     g.drawImage(gameStartImg, 0, 0, 750, 600, null);
@@ -111,7 +125,7 @@ public class Game {
             // button.addActionListener(new ActionListener());
             ball.setDx(0);
             ball.setDy(0);
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             ball.setDx(-10);
             ball.setDy(-10);
             lives--;
@@ -127,7 +141,7 @@ public class Game {
             //System.out.print("Check point!");
             ball.setDx(0);
             ball.setDy(0);
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             System.exit(0);
         }
         catch (Exception e) {
@@ -146,6 +160,8 @@ public class Game {
     public void drawStuff(Graphics g) {
         drawBackground(g);
         if(lives<=0){
+            ball.setDx(0);
+            ball.setDy(0);
             return;
         }
         if (!gameStart) {
