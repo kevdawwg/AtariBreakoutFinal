@@ -72,6 +72,17 @@ public class Game {
         if (actions.size() > 0 && actions.get(0) == 2) {
             gameStart = true;
             actions.remove(0);
+            if(lives<=0){
+                
+                score = 0;
+                lives = 3;
+                bricks = new ArrayList<>();
+                respawnBricks();
+                try {Thread.sleep(1000);}
+                catch (Exception e) {e.printStackTrace();}
+                ball.setDx(10);
+                ball.setDy(10);
+            }
         } 
 
         if (lives == 0 && actions.size() > 0 && actions.get(0) == 3) {
@@ -112,9 +123,12 @@ public class Game {
         else g.drawImage(background, 0, 0, 750, 600, null);
         if(lives==0){
             g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-            g.setColor(Color.PINK);
+            g.setColor(Color.RED);
             g.setFont(FONT_LARGE);
-            g.drawString("Escape to exit", 270, 450);
+            g.drawString("Escape - exit", 450, 450);
+            g.setColor(Color.GREEN);
+            g.setFont(FONT_LARGE);
+            g.drawString("Space - play again", 50, 450);
         }
     }
 
@@ -122,6 +136,8 @@ public class Game {
         drawBackground(g);
         if(lives<=0){
             gameStart = false;
+            ball.setDx(0);
+            ball.setDy(0);
             return;
         }
         if (!gameStart) {
@@ -247,8 +263,12 @@ public class Game {
         actions.add(0);
     }
 
+    public void rtHit(ActionEvent e) {
+        actions.add(1);
+    }
+
     public void spaceHit(ActionEvent e) {
-        actions.add(2); // 2 is only for spacebar, 0 and 1 are for left and right
+        actions.add(2); 
     }
 
     public void escapeHit(ActionEvent e) {

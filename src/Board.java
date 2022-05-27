@@ -96,14 +96,6 @@ public class Board extends JFrame{
 				game.ltHit(e);
 			}
 		});
-		panel.getActionMap().put("space_key",new AbstractAction() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("hit space");
-				game.ltHit(e);
-			}
-		});
 		
 	}
     
