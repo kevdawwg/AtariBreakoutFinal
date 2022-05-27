@@ -57,7 +57,16 @@ public class Board extends JFrame{
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT"), "rt_key_r");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released LEFT"), "lt_key_r");
 		panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "space");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "esc");
 		
+		
+		panel.getActionMap().put("esc", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.escapeHit(e);
+				// System.out.println("escape hit");
+			}
+		});
 		panel.getActionMap().put("space", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -65,14 +74,12 @@ public class Board extends JFrame{
 				// System.out.println("space hit");
 			}
 		});
-		
 		panel.getActionMap().put("rt_key_r", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("released the right arrow");
 			}
 		});
-		
 		panel.getActionMap().put("rt_key",new AbstractAction() {
 
 			@Override
@@ -93,7 +100,7 @@ public class Board extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("hit space");
+				// System.out.println("hit space");
 				game.ltHit(e);
 			}
 		});

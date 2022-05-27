@@ -49,7 +49,7 @@ public class Game {
         imgs = new Image[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
         ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
-        lives = 3;
+        lives = 1;
         score = 0;
         player = new SoundPlayer();
         player.play(0, 66000000); 
@@ -73,6 +73,20 @@ public class Game {
             gameStart = true;
             actions.remove(0);
         } 
+
+        if (lives == 0 && actions.size() > 0 && actions.get(0) == 3) {
+            System.out.println(actions.size());
+            try {
+                actions.remove(0);
+                System.out.println("exiting");
+                System.out.println("After " + actions.size());
+                System.exit(0);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         if (gameStart) {
             respawnBricks();
             moveObjects();
@@ -98,54 +112,16 @@ public class Game {
         else g.drawImage(background, 0, 0, 750, 600, null);
         if(lives==0){
             g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-        }
-        // if(lives==5){
-        //     g.drawImage(gameStartImg, 0, 0, 750, 600, null);
-        // }
-    }
-
-    private void gameStart(){
-        try {
-            // JButton button = new Button("Play");
-            // button.setBounds(Board.WIDTH/2, Board.HEIGHT/2, 90, 30);
-            // button.addActionListener(new ActionListener());
-            ball.setDx(0);
-            ball.setDy(0);
-            Thread.sleep(2000);
-            ball.setDx(-10);
-            ball.setDy(-10);
-            lives--;
-            
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+            g.setColor(Color.PINK);
+            g.setFont(FONT_LARGE);
+            g.drawString("Escape to exit", 270, 450);
         }
     }
-    
-    private void gameEnd(){
-        try {
-            //System.out.print("Check point!");
-            ball.setDx(0);
-            ball.setDy(0);
-            Thread.sleep(2000);
-            System.exit(0);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void allowRun(KeyEvent k){
-        int key = k.getKeyCode();
-        if (key == KeyEvent.VK_SPACE) {
-            lives--;
-        }
-    }
-    
 
     public void drawStuff(Graphics g) {
         drawBackground(g);
         if(lives<=0){
+            gameStart = false;
             return;
         }
         if (!gameStart) {
@@ -172,18 +148,6 @@ public class Game {
             g.drawString("Lives: " + lives, 550, 550);
             g.drawString("Score: " + score, 650, 550);
         }
-        // if (lives == 0) {
-        //     g.drawImage(gameOverImg, 0, 0, 750, 600, null);
-        //     try {
-        //         g.drawString("Game Over",500, 520);
-        //         System.out.print("Check point!");
-        //         Thread.sleep(2000);
-        //         System.exit(0);
-        //     }
-        //     catch (Exception e) {
-        //         e.printStackTrace();
-        //     }
-        // }
     }
 
 
@@ -210,12 +174,7 @@ public class Game {
                      bricks.add(new GameComponent(c * (BRICK_WIDTH + 5), r * (BRICK_HEIGHT + BRICK_SPACE) + 30, BRICK_WIDTH, BRICK_HEIGHT, color));
                 }
             }
-            // for (int i = 0; i < 2; i++) {
-            //    bricks.add(new GameComponent(i * (BRICK_WIDTH + 5)+300, 180, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
-            // }
         }
-        // System.out.println(bricks.size());
-        // bricks.add(new GameComponent(200, 50, BRICK_WIDTH, BRICK_HEIGHT, Color.PINK));
     }
 
     public void checkCollisions() {
@@ -252,14 +211,10 @@ public class Game {
                 idx++;
                 continue;
             }
-            // first one is checking the bottom, the second one is checking the top
-            boolean ballIntersectingVert = ballRect.y >= brickRect.y + brickRect.height
-                    || ballRect.y + ballRect.height <= brickRect.y;
-            // boolean ballIntersectingHoriz = ballRect.x <= brickRect.x + Game.BRICK_WIDTH || ballRect.x + ballRect.width >= brickRect.x;
-            // ball.changeDX(ballIntersectingHoriz);
-            // ball.changeDY(ballIntersectingVert);
+
+            boolean ballIntersectingVert = ballRect.y <= brickRect.y + brickRect.height
+                    || ballRect.y + ballRect.height >= brickRect.y;
             ball.changeDir(ballIntersectingVert);
-            // System.out.println(ballIntersectingVert);
             player.play(2, 0);
             removed.add(idx);
             bricks.remove(idx);
@@ -294,6 +249,10 @@ public class Game {
 
     public void spaceHit(ActionEvent e) {
         actions.add(2); // 2 is only for spacebar, 0 and 1 are for left and right
+    }
+
+    public void escapeHit(ActionEvent e) {
+        actions.add(3);
     }
 
 }

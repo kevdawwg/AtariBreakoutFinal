@@ -14,14 +14,6 @@ public class Ball extends GameComponent {
         else this.setDx(-this.getDx());
     }
 
-    // public void changeDX(boolean b) {
-    //     if (b) this.setDx(-this.getDx());
-    // }
-
-    // public void changeDY(boolean b) {
-    //     if (b) this.setDy(-this.getDy());
-    // }
-
     public void move() {
         this.getRect().translate(this.getDx(), this.getDy());
     }
@@ -33,8 +25,6 @@ public class Ball extends GameComponent {
         g.drawImage(img, getRect().x-5, getRect().y-5, getRect().width+10, getRect().height+10, null);
     }
 
-    // method used to calculate exit velocity of ball relative to
-    // the distance between the ball and the center of the paddle
     public void bounced(Rectangle paddleRect) {
         float paddleMidpoint = (paddleRect.width / 2) + paddleRect.x;
         float ballMidpoint = (getRect().width / 2) + getRect().x;
