@@ -53,7 +53,6 @@ public class Board extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.add(panel);
-        System.out.println(this);
         timer = new Timer(REFRESH, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
