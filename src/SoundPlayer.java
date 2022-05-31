@@ -31,18 +31,6 @@ public class SoundPlayer {
           } 
     }
 
-    public void makeSound(int i) {
-        File test = new File(sounds.get(i));
-
-        try {
-            clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(test));
-            clip.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }

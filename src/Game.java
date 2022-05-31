@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.File;
 
 public class Game {
-    public Point panelLocation;
     public Paddle paddle;
     private ArrayList<GameComponent> bricks;
     private ArrayList<Integer> actions;
@@ -17,11 +16,10 @@ public class Game {
     private int score;
     private int lives;
     private SoundPlayer player;
-    private BufferedImage background = null;
+    private BufferedImage background;
     private BufferedImage gameOverImg;
     private BufferedImage gameStartImg;
     private int brickRespawns = 0;
-    private GameComponent startScreen;
     private boolean gameStart = false;
     public static final int START_WIDTH = 200;
     public static final int START_HEIGHT = 150;
@@ -42,7 +40,7 @@ public class Game {
         actions = new ArrayList<>();
         imgs = new BufferedImage[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
-        ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 10, -10);
+        ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 5, -5);
         lives = 1;
         score = 0;
         player = new SoundPlayer();
@@ -55,14 +53,13 @@ public class Game {
     public void moveObjects() {
         // paddle.mouseMove(panelLocation);
         ball.move();
-        // if (actions.size() > 0) {
+        // if (actions.size() > 0) { //for buttons, but cursor tracking must be disabled for this to work
         // paddle.buttonMove(actions.remove(0));
         // }
-        // ball.move();
+
     }
 
     public void update() {
-        // System.out.println(actions.size());
         if (actions.size() > 0 && actions.get(0) == 2) {
             gameStart = true;
             actions.remove(0);
@@ -76,8 +73,8 @@ public class Game {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                ball.setDx(10);
-                ball.setDy(10);
+                ball.setDx(5);
+                ball.setDy(-5);
             }
         }
 
@@ -149,7 +146,6 @@ public class Game {
                 bricks.get(i).draw(g);
                 int height = bricks.get(i).getRect().y;
                 int index = (height - 30) / (BRICK_HEIGHT + BRICK_SPACE);
-                // int index = height / ((BRICK_HEIGHT + BRICK_SPACE) + 30);
                 Image img = imgs[index];
                 g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT, null);
             }
@@ -164,7 +160,7 @@ public class Game {
             brickRespawns++;
             int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
             double rand = Math.random();
-            int xv = (rand > 0.5) ? -10 : 10;
+            int xv = (rand > 0.5) ? -5 : 5;
             ball = new Ball(randX, 400, BALL_WIDTH, BALL_HEIGHT, xv, -10);
             try {
                 Thread.sleep(2000);
@@ -202,8 +198,8 @@ public class Game {
                 Thread.sleep(3000);
                 int randX = ((int) (Math.random() * Board.WIDTH - 99)) + 100;
                 double rand = Math.random();
-                int xv = (rand > 0.5) ? -10 : 10;
-                ball = new Ball(randX, 300, BALL_WIDTH, BALL_HEIGHT, xv, 10);
+                int xv = (rand > 0.5) ? -5 : 5;
+                ball = new Ball(randX, 300, BALL_WIDTH, BALL_HEIGHT, xv, -10);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -36,7 +36,7 @@ public class Ball extends GameComponent {
         int normalizedMax = Game.SPEED_CAP * 2;
         int normalizedMin = -Game.SPEED_CAP;
         float normalized = normalizedMax * ((dist - xMin) / (paddleRect.width)) + normalizedMin;
-        setDx(Math.round(normalized));
-        setDy(-getDy());
+        this.setDx(Math.round(normalized));
+        this.setDy(-this.getDy());
     }
 }

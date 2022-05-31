@@ -16,7 +16,7 @@ public class Paddle extends GameComponent {
         }
     }
 
-    public void mouseMove(Point panelLocation) {
+    public void mouseMove(Point panelLocation) { 
         long mouseX = Math.round(MouseInfo.getPointerInfo().getLocation().getX());
         int correctedX = (int) Math.round(mouseX - panelLocation.getX());
         if (correctedX + Game.PADDLE_WIDTH >= Board.WIDTH) {
