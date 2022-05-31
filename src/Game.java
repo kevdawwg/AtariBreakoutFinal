@@ -85,8 +85,6 @@ public class Game {
             System.out.println(actions.size());
             try {
                 actions.remove(0);
-                System.out.println("exiting");
-                System.out.println("After " + actions.size());
                 System.exit(0);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -198,7 +196,6 @@ public class Game {
             return;
         }
         if (ball.getRect().y + ball.getRect().height >= 520) {
-            System.out.println("hit the bottom");
             player.play(1, 0);
             try {
                 lives--;
