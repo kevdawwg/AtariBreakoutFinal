@@ -150,7 +150,8 @@ public class Game {
             for (int i = 0; i < bricks.size(); i++) {
                 bricks.get(i).draw(g);
                 int height = bricks.get(i).getRect().y;
-                int index = height / ((BRICK_HEIGHT + BRICK_SPACE) + 30);
+                int index = (height - 30) / (BRICK_HEIGHT + BRICK_SPACE);
+                // int index = height / ((BRICK_HEIGHT + BRICK_SPACE) + 30);
                 Image img = imgs[index];
                 g.drawImage(img, bricks.get(i).getRect().x, bricks.get(i).getRect().y, BRICK_WIDTH, BRICK_HEIGHT, null);
             }
@@ -220,8 +221,8 @@ public class Game {
                 continue;
             }
 
-            boolean ballIntersectingVert = ballRect.y <= brickRect.y + brickRect.height
-                    || ballRect.y + ballRect.height >= brickRect.y;
+            boolean ballIntersectingVert = ballRect.y >= brickRect.y + brickRect.height
+                    || ballRect.y + ballRect.height <= brickRect.y;
             ball.changeDir(ballIntersectingVert);
             player.play(2, 0);
             removed.add(idx);
