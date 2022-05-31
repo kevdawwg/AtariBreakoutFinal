@@ -26,15 +26,24 @@ public class Board extends JFrame {
 
     public void moveMouse() {
         Point panelLocation = panel.getLocation();
-        SwingUtilities.convertPointFromScreen(panelLocation, panel);
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-        SwingUtilities.convertPointFromScreen(mouseLocation, panel);
-        int mouseX = (int) Math.round(mouseLocation.getX());
+        // panelLocation has to be converted to absolute location rather than location
+        // relative to panel
+        SwingUtilities.convertPointFromScreen(panelLocation, panel);
         int panelX = (int) Math.round(panelLocation.getX());
-        int correctedX = mouseX - panelX;
+        int mouseX = (int) Math.round(mouseLocation.getX());
+        // offsets the mouse location with the panel location so the paddle draws in the
+        // correct position
+        int correctedX = mouseX + panelX;
         Rectangle rect = game.paddle.getRect();
+        // if the mouse position is outside of bounds, then move paddle to edge of
+        // screen
         if (correctedX + Game.PADDLE_WIDTH >= Board.WIDTH) {
             rect.setLocation(Board.WIDTH - Game.PADDLE_WIDTH, rect.y);
+            return;
+        }
+        if (correctedX == 0) {
+            rect.setLocation(0, rect.y);
             return;
         }
         rect.setLocation(correctedX, rect.y);
