@@ -40,7 +40,7 @@ public class Game {
         actions = new ArrayList<>();
         imgs = new BufferedImage[4];
         paddle = new Paddle(300, 500, PADDLE_WIDTH, PADDLE_HEIGHT);
-        ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 5, -5);
+        ball = new Ball(300, 450, BALL_WIDTH, BALL_HEIGHT, 5, -10);
         lives = 1;
         score = 0;
         player = new SoundPlayer();
@@ -79,7 +79,7 @@ public class Game {
         }
 
         if (lives == 0 && actions.size() > 0 && actions.get(0) == 3) {
-            System.out.println(actions.size());
+            // System.out.println(actions.size());
             try {
                 actions.remove(0);
                 System.exit(0);

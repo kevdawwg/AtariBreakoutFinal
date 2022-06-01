@@ -6,7 +6,7 @@ public class Main {
 	            @Override
 	            public void run() {
 	                Board wnd = new Board("Atari");
-					System.out.println(wnd);
+					// System.out.println(wnd);
 	                wnd.setVisible(true);
 	            }
 	        });
